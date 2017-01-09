@@ -1,0 +1,37 @@
+# standby / on
+0001020900 - standby
+0001020901 - on
+# Standby - 'Network standby' (No powersaving at all) and 'Eco mode' (uses 1W, but can only wake up by button press or IR)
+NB: it seems these settings are not preserved after poweroff
+00010208000001020208 - auto shutoff disabled
+00010208010001020208 - auto shutoff enabled
+00010207000001020207 - power save disabled
+00010207010001020207 - power save enabled
+# Network standby
+00010208010001020208 - auto shutoff enabled
+00010207000001020207 - power save disabled
+# Eco standby
+00010208010001020208 - auto shutoff enabled
+00010207010001020207 - power save enabled
+
+# inputs/sources
+0001020300 - Coax 1
+0001020301 - Coax 2
+0001020302 - Opt 1
+0001020303 - Opt 2
+0001020304 - Computer
+0001020305 - Stream
+0001020306 - Dock
+0001020307 - BT
+
+0001020203 - poll inputs
+0001020209 - poll standby/on state (response: 0001020900 (standby) / 0001020901 (on)
+0001020400 - 00010204c8 Volume
+0001020400 - volume (min, -90dB)
+00010204c8 - volume (max, 10dB)
+0001020204 - poll volume
+0001020a01 - mute
+0001020a00 - unmute
+000102020a - poll mute/unmute. Response not muted 0001020a00, muted 0001020a01
+
+Discovery: 224.0.0.251 bonjour/mDNS, UDP port 5353.
