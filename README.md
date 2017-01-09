@@ -4,7 +4,7 @@ This app lets you control a NAD D7050 amplifier from within flows on a Homey dev
 
 In its current state, the app requires that you enter the amplifier's IP address so it is advised to set it up to have a fixed IP address or a 'static lease' from the DHCP server.
 
-The app is based on Marco van den Hout's Marantz app. 
+The app is based on the Marantz app by  Marco van den Hout. 
 
 Supported flow controls:
 
@@ -16,14 +16,20 @@ Supported flow controls:
 * enabling / disabling power saving mode
 
 Standby modes
-The NAD D7050 features two standby modes: 'ECO mode' and 'Network standby'. In Network standby mode the device is fully reachable via the network but still uses 15W continously.
+
+The NAD D7050 features two standby power saving modes: 'ECO mode' and 'Network standby'. In Network standby mode the device is fully reachable via the network but still uses 15W continuously.
 
 In ECO mode the amplifier only uses about 1W. However in this mode it can only be switched on via IR or by physically touching the on/off button on top of the device. 
 
 Auto shutoff
-The 'auto shutoff' feature activates the chosen standby mode after idling for 30 minutes.
+
+The 'auto shutoff' feature activates the chosen power saving mode after idling for 30 minutes.
 
 # Changelog
 
+**Version 0.0.2:**
+- Textual corrections
+
 **Version 0.0.1:**
 - Initial version
+
