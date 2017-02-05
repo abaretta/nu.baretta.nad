@@ -158,13 +158,13 @@ module.exports.capabilities = {
 					sendCommandToDevice ( device_data, command, function(receivedData) {
 						Homey.log("NAD D7050 app - got callback, receivedData: " + receivedData);
 // if the response contained "0001020901", the amplifier was on, "0001020900" means it was in standby mode.
-						if (receivedData.indexOf('0001020901') >= 0) {
-							Homey.log("NAD D7050 app - telling capability power is on");
-							callbackCapability (null, true);
-						}	else {
-							Homey.log("NAD D7050 app - telling capability power is standby");
-							callbackCapability (null, false);
-						}
+		                        if (receivedData.indexOf('000102090') >= 0 ) {
+                                                        Homey.log("NAD D7050 app - telling capability power is on or standby");
+                                                        callbackCapability (null, true);
+                                                }       else {
+                                                        Homey.log("NAD D7050 app - telling capability power is off");
+                                                        callbackCapability (null, false);
+                                                }
 					} );
         },
 
