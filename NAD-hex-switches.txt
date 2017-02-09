@@ -2,7 +2,7 @@
 0001020900 - standby
 0001020901 - on
 # Standby - 'Network standby' (No powersaving at all) and 'Eco mode' (uses 1W, but can only wake up by button press or IR)
-NB: it seems these settings are not preserved after poweroff
+NB: it seems the D7050 has a bug causing Spotify connect to prevent auto-shutoff in some cases.
 00010208000001020208 - auto shutoff disabled
 00010208010001020208 - auto shutoff enabled
 00010207000001020207 - power save disabled
