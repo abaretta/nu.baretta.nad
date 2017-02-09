@@ -1,285 +1,390 @@
 {
-    "id": "nu.baretta.nad",
-    "name": {
-        "en": "NAD D7050"
-    },
-    "version": "0.0.2",
-    "compatibility": "1.x",
-    "author": {
-        "name": "Anne Baretta",
-        "email": "dev@baretta.nu"
-    },
-    "images": {
-      "large": "./assets/images/large.jpg",
-      "small": "./assets/images/small.jpg"
-    },
-    "category": "appliances",
-    "description": {
-      "en": "NAD D7050 IP control app for Homey",
-      "nl": "Dit is een NAD D7050 IP aansturing app voor Homey"
-    },
-    "dependencies": {
-    		"net": "*"
-    },
-    "drivers": [
-      {
-          "id": "amplifier",
-          "name": {
-              "en": "NAD D7050 amplifier",
-              "nl": "NAD D7050 versterker"
-          },
-          "images": {
-              "large": "drivers/amplifier/assets/images/large.jpg",
-              "small": "drivers/amplifier/assets/images/small.jpg"
-          },
-          "class": "other",
-          "capabilities": [ "onoff" ],
-          "mobile": {
-	           "components": [
-	              {
-		                "id": "icon",
-		                "capabilities": ["onoff"]
-		            }
-		         ]
-          },
-          "pair": [
-            {
-              "id": "start"
-            },
-            {
-              "id": "list_amplifiers",
-              "template": "list_devices",
-              "navigation": {
-                  "next": "add_amplifiers"
-              }
-            },
-            {
-              "id": "add_amplifiers",
-              "template": "add_devices"
-            }
-          ],
-          "settings": [
-            {
-              "type": "group",
-                      "label": {
-                          "en": "General settings",
-                          "nl": "Algemene instellingen"
-                      },
-                      "children": [
-                          {
-                              "id": "settingIPAddress",
-                              "type": "text",
-                              "label": {
-                                  "en": "IP address",
-                                  "nl": "IP adres"
-                              },
-                              "value": "0.0.0.0"
-                          }
-                      ]
-            }
-          ]
-      }
-    ],
-    "flow": {
-        "actions": [
-        {
-            "id": "powerOn",
+	"id": "nu.baretta.nad",
+	"name": {
+		"en": "NAD D7050"
+	},
+	"version": "0.0.3",
+	"compatibility": "1.x",
+	"author": {
+		"name": "Anne Baretta",
+		"email": "dev@baretta.nu"
+	},
+	"images": {
+		"large": "./assets/images/large.jpg",
+		"small": "./assets/images/small.jpg"
+	},
+	"category": "appliances",
+	"description": {
+		"en": "NAD D7050 IP control app for Homey",
+		"nl": "Dit is een NAD D7050 IP aansturing app voor Homey"
+	},
+	"dependencies": {
+		"net": "*"
+	},
+		"capabilities": {
+        "input_selected": {
+            "type": "enum",
             "title": {
-                "en": "Turn power on",
-                "nl": "Zet aan"
+                "en": "Selected source",
+				"nl": "Geselecteerde bron"
             },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-            ]
-        },
-        {
-            "id": "powerOff",
-            "title": {
-                "en": "Power off/standby",
-                "nl": "Uitschakelen/standby"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-                          ]
-        },
-        {
-            "id": "changeInput",
-            "title": {
-                "en": "Switch input",
-                "nl": "Schakel input"
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": "autocomplete",
-                "placeholder": {
-                  "en": "input",
-                  "nl": "input"
-                }
-              },
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-                          ]
-        },
-        {
-            "id": "mute",
-            "title": {
-                "en": "Mute",
-                "nl": "Mute"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-            ]
-        },
-        {
-            "id": "unMute",
-            "title": {
-                "en": "Turn mute off",
-                "nl": "Zet mute uit"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-            ]
-        },
-        {
-            "id": "autoShutOffOn",
-            "title": {
-                "en": "Enable auto shut off",
-                "nl": "Activeer auto shut off"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-            ]
-        },
-        {
-            "id": "autoShutOffOff",
-            "title": {
-                "en": "Disable auto shut off",
-                "nl": "Deactiveer auto shut off"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-            ]
-        },
-        {
-            "id": "powerSaveOn",
-            "title": {
-                "en": "Enable power save mode",
-                "nl": "Activeer de spaarstand"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-            ]
-        },
-        {
-            "id": "powerSaveOff",
-            "title": {
-                "en": "Disable power save mode",
-                "nl": "Deactiveer de spaarstand"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              }
-            ]
-        },
-        {
-            "id": "setVolume",
-            "title": {
-                "en": "Change volume",
-                "nl": "Verander volume"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                },
-                "filter": "driver_id=amplifier"
-              },
-              {
-                "name": "volume",
-                "type": "number",
-                "min": 0,
-                "max": 99,
-                "placeholder": {
-                   "en": "Target volume",
-                   "nl": "Gewenst volume"
-                }
-              }
-            ]
+            "getable": true,
+            "setable": true,
+			"values": [
+			{	"id": "0",
+				"title": { "en": "Coax 1"
+			}
+			},
+			{	"id": "1",
+				"title": { "en": "Coax 2"
+			}
+			},
+			{	"id": "2",
+				"title": { "en": "Optical 1"
+			}
+			},
+			{	"id": "3",
+				"title": { "en": "Optical 2"
+			}
+			},
+			{	"id": "4",
+				"title": { "en": "Computer"
+			}
+			},
+			{	"id": "5",
+				"title": { "en": "Streaming"
+			}
+			},
+			{	"id": "6",
+				"title": { "en": "USB Dock"
+			}
+			},
+			{	"id": "7",
+				"title": { "en": "BT"
+			}
+			}
+			]
         }
-              ]
-    }
+},
+	"drivers": [{
+		"id": "amplifier",
+		"name": {
+			"en": "NAD D7050 amplifier",
+			"nl": "NAD D7050 versterker"
+		},
+		"images": {
+			"large": "drivers/amplifier/assets/images/large.jpg",
+			"small": "drivers/amplifier/assets/images/small.jpg"
+		},
+		"class": "other",
+
+		"capabilities": [ "onoff"],
+		"mobile": {
+			"components": [{
+				"id": "icon",
+				"capabilities": ["onoff"]
+			}, {
+				"id": "toggle",
+				"capabilities": ["onoff"]
+			}]
+		},
+		"pair": [{
+			"id": "start"
+		}, {
+			"id": "list_amplifiers",
+			"template": "list_devices",
+			"navigation": {
+				"next": "add_amplifiers"
+			}
+		}, {
+			"id": "add_amplifiers",
+			"template": "add_devices"
+		}],
+		"settings": [{
+			"type": "group",
+			"label": {
+				"en": "General settings",
+				"nl": "Algemene instellingen"
+			},
+			"children": [{
+				"id": "settingIPAddress",
+				"type": "text",
+				"label": {
+					"en": "IP address",
+					"nl": "IP adres"
+				},
+				"value": "0.0.0.0"
+			}]
+		}]
+	}],
+	"flow": {
+		"conditions": [{
+			"id": "volume_mute",
+			"title": {
+				"en": "D7050 !{{is|is not}} muted",
+				"nl": "D7050 mute functie !{{is|is niet}} geactiveerd"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "onoff",
+			"title": {
+				"en": "D7050 !{{is|is not}} on",
+				"nl": "D7050 !{{staat|staat niet}} aan"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "input_selected",
+			"title": {
+				"en": "Audio source !{{is|is not}}",
+				"nl": "Audio bron !{{is|is niet}}"
+			},
+			"args": [{
+				"name": "input",
+				"type": "autocomplete",
+				"placeholder": {
+					"en": "Select source",
+					"nl": "Selecteer audio bron"
+				}
+			}, {
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}],
+		"actions": [{
+			"id": "powerOn",
+			"title": {
+				"en": "Turn power on",
+				"nl": "Zet aan"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "powerOff",
+			"title": {
+				"en": "Power off/standby",
+				"nl": "Uitschakelen/standby"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "changeInput",
+			"title": {
+				"en": "Select source",
+				"nl": "Selecteer audio bron"
+			},
+			"args": [{
+				"name": "input",
+				"type": "autocomplete",
+				"placeholder": {
+					"en": "input",
+					"nl": "input"
+				}
+			}, {
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "mute",
+			"title": {
+				"en": "Mute",
+				"nl": "Mute"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "unMute",
+			"title": {
+				"en": "Turn mute off",
+				"nl": "Zet mute uit"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "autoShutOffOn",
+			"title": {
+				"en": "Enable auto shut off",
+				"nl": "Activeer auto shut off"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "autoShutOffOff",
+			"title": {
+				"en": "Disable auto shut off",
+				"nl": "Deactiveer auto shut off"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "powerSaveOn",
+			"title": {
+				"en": "Enable power save mode",
+				"nl": "Activeer de spaarstand"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "powerSaveOff",
+			"title": {
+				"en": "Disable power save mode",
+				"nl": "Deactiveer de spaarstand"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}]
+		}, {
+			"id": "volumeUp",
+			"title": {
+				"en": "Increase the volume",
+				"nl": "Verhoog het volume"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 1,
+				"max": 25,
+				"placeholder": {
+					"en": "Volume increase (%)",
+					"nl": "Volume toename (%)"
+				}
+			}]
+		}, {
+			"id": "volumeDown",
+			"title": {
+				"en": "Lower the volume",
+				"nl": "Verlaag het volume"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 1,
+				"max": 25,
+				"placeholder": {
+					"en": "Volume decrease (%)",
+					"nl": "Volume afname (%)"
+				}
+			}]
+		}, {
+			"id": "setVolume",
+			"title": {
+				"en": "Change volume",
+				"nl": "Verander volume"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				},
+				"filter": "driver_id=amplifier"
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 0,
+				"max": 99,
+				"placeholder": {
+					"en": "Target volume",
+					"nl": "Gewenst volume"
+				}
+			}]
+		}]
+	}
 }
