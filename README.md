@@ -6,7 +6,7 @@ In its current state, the app requires that you enter the amplifier's IP address
 
 The app is based on the Marantz app by  Marco van den Hout. 
 
-Supported flow controls:
+Supported flow actions:
 
 * switch on / standby
 * select input
@@ -14,6 +14,17 @@ Supported flow controls:
 * mute / unmute
 * enabling / disabling auto shut off
 * enabling / disabling power saving mode
+* increase / decrease volume
+
+Supported flow conditions:
+
+* device on/off
+* device muted/unmuted
+* input selected
+
+Mobile capabilities:
+
+* on/off
 
 Standby modes
 
@@ -23,9 +34,14 @@ In ECO mode the amplifier only uses about 1W. However in this mode it can only b
 
 Auto shutoff
 
-The 'auto shutoff' feature activates the chosen power saving mode after idling for 30 minutes.
+The 'auto shutoff' feature activates the chosen power saving mode after idling for 15 minutes. Note that the D7050 appears to have a bug which prevents auto-shutoff when Spotify connect is used in certain cases.
 
 # Changelog
+
+
+**Version 0.0.3:**
+- Added flow conditions and volume up/down action
+- Added mobile on/off functionality
 
 **Version 0.0.2:**
 - Textual corrections
