@@ -483,12 +483,9 @@ function unMute(device) {
 }
 
 function setVolume(device, targetVolume) {
-    Homey.log("NAD D7050 app - callback setVolume device: " + device);
-    Homey.log("NAD D7050 app - callback setVolume volume: " + targetVolume);
     // volume ranges from 0 (-90dB) to 200 (10dB) on the D7050. Add 2 to compensate for max of 99 in GUI 
     var Volume_hex = (2 * targetVolume + 2).toString(16);
     var command = '00010204' + Volume_hex;
-    Homey.log("NAD D7050 app - callback setVolume command: " + command + "device" + device);
     sendCommandToDevice(device, command);
 }
 
