@@ -25,6 +25,8 @@ Supported flow conditions:
 Mobile capabilities:
 
 * on/off
+* volume
+* input selection
 
 Standby modes
 
@@ -38,6 +40,8 @@ The 'auto shutoff' feature activates the chosen power saving mode after idling f
 
 # Changelog
 
+**Version 0.0.4:**
+- Added mobile volume and input selector functionality
 
 **Version 0.0.3:**
 - Added flow conditions and volume up/down action
