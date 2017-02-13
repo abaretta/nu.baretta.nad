@@ -38,6 +38,11 @@ Auto shutoff
 
 The 'auto shutoff' feature activates the chosen power saving mode after idling for 15 minutes. Note that the D7050 appears to have a bug which prevents auto-shutoff when Spotify connect is used in certain cases.
 
+# TODO
+
+* Sort out initial state for volume and selected input mobile capabilities
+* Add settings for customizing input names
+
 # Changelog
 
 **Version 0.0.4:**
