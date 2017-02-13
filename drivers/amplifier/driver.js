@@ -13,7 +13,8 @@ var IPPort = 50001;
 // it is generally advisable to keep a list of
 // paired and active devices in your driver's memory.
 var devices = {};
-// All known inputs for supported Denon/Marantz AV receivers and a more friendly name to use.
+
+// All inputs for the NAD D7050 amplifier and a more friendly name to use.
 // If you find your favorite input missing, please file a bug on the GitHub repository.
 var allPossibleInputs = [{
         inputName: "0",
@@ -182,19 +183,18 @@ module.exports.capabilities = {
             Homey.log('NAD D7050 app - Setting device_status of ' + device_data.id + ' to ' + turnon);
             // turn amp 'on' 
             if (turnon) {
-                var command = '0001020901';
-                sendCommandToDevice(device_data, command);
+		powerOn(device_data);
                 callback(null, true);
                 // turnon standby mode  
             } else {
-                var command = '0001020900';
-                sendCommandToDevice(device_data, command);
+		powerOff(device_data);
                 callback(null, true);
             }
         }
     },
 
-    volume_mute: {
+/* leaving out the volume_mute capability for now, there's no room for it in the mobile app
+	volume_mute: {
 
         get: function(device_data, callback) {
 
@@ -221,17 +221,15 @@ module.exports.capabilities = {
             Homey.log('NAD D7050 app - Setting device_status of ' + device_data.id + ' to ' + mute);
             // mute amp 
             if (mute) {
-                var command = '0001020a01';
-                sendCommandToDevice(device_data, command);
+    		Mute(device_data);
                 callback(null, true);
                 // unmute  
             } else {
-                var command = '0001020a00';
-                sendCommandToDevice(device_data, command);
+    		unMute(device_data);
                 callback(null, true);
             }
         }
-    },
+    }, */
 
     volume_set: {
 
@@ -242,30 +240,28 @@ module.exports.capabilities = {
             sendCommandToDevice(device_data, command, function(receivedData) {
                 Homey.log("NAD D7050 app - got callback, receivedData: " + receivedData);
                 var currentvolume = new Buffer(receivedData);
-                if (currentvolume == "") {
+		if (currentvolume == "") {
                     Homey.log("NAD D7050 app - no response, amp switched off? ");
+		    // passing volume 0 until I think of a better way to handle it
                     currentvolume = "0001020400";
                 }
                 // last two chars hold volume in hex
                 var volume_hex = currentvolume.slice(8, 10);
                 var bytestring = Number('0x' + volume_hex).toString(10);
                 var volume_set = (bytestring / 2);
-                Homey.log("NAD D7050 app - got callback, volume: " + volume_set);
-                //			module.exports.realtime( device_data, volume_set, volume );
                 callback(null, volume_set);
             });
 
         },
 
         set: function(device_data, volume_set, callback) {
-            Homey.log("NAD D7050 app - setting device volume " + device_data.id + volume);
-            // volume ranges from 0 (-90dB) to 200 (10dB) on the D7050. Add 2 to compensate for max of 99 in GUI 
-            var Volume_hex = (2 * volume + 2).toString(16);
-            // pad volume levels to 2 digits
-            if (Volume_hex.length < 2) Volume_hex = '0' + Volume_hex;
-            var command = '00010204' + Volume_hex;
-            sendCommandToDevice(device, command);
-            Homey.log("NAD D7050 app - setting device volume " + device_data.id + Volume_hex);
+            Homey.log("NAD D7050 app - volume " + volume_set);
+	    // mobile slider sends 0 - 1
+            if (volume_set <= 1) volume_set = Math.round( volume_set * 99);
+            Homey.log("NAD D7050 app - volume " + volume_set);
+            Homey.log("NAD D7050 app - setting device volume " + device_data.id + " to " + volume_set);
+    	    setVolume(device_data, volume_set);
+            Homey.log("NAD D7050 app - setting device volume " + device_data + volume_set);
             return callback(null, volume_set);
         }
 
@@ -291,12 +287,9 @@ module.exports.capabilities = {
         },
 
         set: function(device_data, input_selected, callback) {
-            Homey.log("NAD D7050 app - setting device input " + device_data.id + input);
-            var input_hex = input.toString(16);
-            if (input_hex.length < 2) input_hex = '0' + input_hex;
-            var command = '00010203' + input_hex;
-            sendCommandToDevice(device, command);
-            Homey.log("NAD D7050 app - setting device input " + device_data.id + input_hex);
+            Homey.log("NAD D7050 app - setting device input " + device_data.id + input_selected);
+	    changeInputSource(device_data, input_selected);
+            Homey.log("NAD D7050 app - setting device input " + device_data.id + input_selected);
             return callback(null, input_selected);
         }
 
@@ -348,18 +341,21 @@ Homey.manager('flow').on('condition.input_selected.input.autocomplete', function
 // start flow action handlers
 
 Homey.manager('flow').on('action.powerOn', function(callback, args) {
+    module.exports.realtime( args.device, 'onoff', true);
     var device = args.device;
     powerOn(device);
     callback(null, true); // we've fired successfully
 });
 
 Homey.manager('flow').on('action.powerOff', function(callback, args) {
+    module.exports.realtime( args.device, 'onoff', false);
     var device = args.device;
     powerOff(device);
     callback(null, true); // we've fired successfully
 });
 
 Homey.manager('flow').on('action.changeInput', function(callback, args) {
+    module.exports.realtime( args.device, 'input_selected', args.input.inputName);
     var input = args.input.inputName;
     var device = args.device;
     changeInputSource(device, input);
@@ -373,18 +369,21 @@ Homey.manager('flow').on('action.changeInput.input.autocomplete', function(callb
 });
 
 Homey.manager('flow').on('action.mute', function(callback, args) {
+    module.exports.realtime( args.device, 'volume_mute', true);
     var device = args.device;
-    mute(device);
+    Mute(device);
     callback(null, true); // we've fired successfully
 });
 
 Homey.manager('flow').on('action.unMute', function(callback, args) {
+    module.exports.realtime( args.device, 'volume_mute', false);
     var device = args.device;
     unMute(device);
     callback(null, true); // we've fired successfully
 });
 
 Homey.manager('flow').on('action.setVolume', function(callback, args) {
+    module.exports.realtime( args.device, 'volume_set', args.volume);
     var device = args.device;
     var targetVolume = args.volume;
     setVolume(device, targetVolume);
@@ -403,6 +402,7 @@ Homey.manager('flow').on('action.volumeUp', function(callback, args) {
             targetVolume = 99;
         }
         Homey.log("NAD D7050 app - correcting volume to " + targetVolume);
+	module.exports.realtime( args.device, 'volume_set', targetVolume);
         // volume ranges from 0 (-90dB) to 200 (10dB) on the D7050. Add 2 to compensate for max of 99 in GUI 
         var Volume_hex = (2 * targetVolume + 2).toString(16);
         // pad volume levels to 2 digits
@@ -425,6 +425,7 @@ Homey.manager('flow').on('action.volumeDown', function(callback, args) {
             targetVolume = 0;
         }
         Homey.log("NAD D7050 app - correcting volume to " + targetVolume);
+	module.exports.realtime( args.device, 'volume_set', targetVolume);
         // volume ranges from 0 (-90dB) to 200 (10dB) on the D7050. Add 2 to compensate for max of 99 in GUI 
         var Volume_hex = (2 * targetVolume + 2).toString(16);
         // pad volume levels to 2 digits
@@ -472,7 +473,7 @@ function changeInputSource(device, input) {
     sendCommandToDevice(device, command);
 }
 
-function mute(device) {
+function Mute(device) {
     var command = '0001020a01';
     sendCommandToDevice(device, command);
 }
@@ -522,7 +523,6 @@ function sendCommand(hostIP, command, callbackCommand) {
     // fallback in case no response is received - after a delay, close connection
     setTimeout(function() {
         // make sure the session is terminated
-        //  client.end();
         client.destroy();
         Homey.log("NAD D7050 app - send callback, receivedData: " + receivedData);
         // if we got a callback function, call it with the receivedData
@@ -554,5 +554,5 @@ function initDevice(device_data) {
     devices[device_data.id].state = {
         onoff: true
     };
-    devices[device_data.id].data = device_data;
+devices[device_data.id].data = device_data;
 }
