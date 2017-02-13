@@ -3,7 +3,7 @@
 	"name": {
 		"en": "NAD D7050"
 	},
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"compatibility": "1.x",
 	"author": {
 		"name": "Anne Baretta",
@@ -21,12 +21,12 @@
 	"dependencies": {
 		"net": "*"
 	},
-		"capabilities": {
+	"capabilities": {
         "input_selected": {
             "type": "enum",
             "title": {
                 "en": "Selected source",
-				"nl": "Geselecteerde bron"
+		"nl": "Geselecteerde bron"
             },
             "getable": true,
             "setable": true,
@@ -78,15 +78,19 @@
 		},
 		"class": "other",
 
-		"capabilities": [ "onoff"],
+		"capabilities": [ "onoff" , "volume_mute", "input_selected", "volume_set" ],
 		"mobile": {
 			"components": [{
 				"id": "icon",
-				"capabilities": ["onoff"]
-			}, {
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			}]
+				"capabilities": [ "onoff" ] 
+			},{
+                    		"id": "picker",
+                    		"capabilities": [ "input_selected" ]
+                	},{
+              
+                    		"id": "slider",
+                    		"capabilities": [ "volume_set" ]
+                	}]
 		},
 		"pair": [{
 			"id": "start"
@@ -175,7 +179,7 @@
 			"id": "powerOn",
 			"title": {
 				"en": "Turn power on",
-				"nl": "Zet aan"
+				"nl": "Zet versterker aan"
 			},
 			"args": [{
 				"name": "device",
@@ -224,7 +228,7 @@
 				"filter": "driver_id=amplifier"
 			}]
 		}, {
-			"id": "mute",
+			"id": "Mute",
 			"title": {
 				"en": "Mute",
 				"nl": "Mute"
