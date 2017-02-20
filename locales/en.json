@@ -1,12 +1,20 @@
 {
 	"pair": {
 		"start": {
-      "intro": "Enter your device's IP address and give it a name.",
+      "intro": "Enter your device's IP address and give it a name. You can also customize the names of the inpusts (sources) of the amplifier.",
 			"title": "Finding device...",
 			"error": "An error has occurred.",
       "required": "IP address is a required value.",
       "ipAddress": "IP address",
-			"deviceName": "Device name",
+      "deviceName": "Device name",
+      "input0": "Coaxial1",
+      "input1": "Coaxial2",
+      "input2": "Optical1",
+      "input3": "Optical2",
+      "input4": "Computer",
+      "input5": "Streaming",
+      "input6": "USB Dock",
+      "input7": "BT",
       "saveSettings": "Save settings"
 		}
   }
