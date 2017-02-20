@@ -40,13 +40,13 @@ The 'auto shutoff' feature activates the chosen power saving mode after idling f
 
 # TODO
 
-* Sort out initial state for volume and selected input mobile capabilities
-* Add settings for customizing input names
+Cleanup settings, look into custom input name settings for mobile input selector
 
 # Changelog
 
 **Version 0.0.4:**
-- Added mobile volume and input selector functionality
+- Added mobile volume, mute and input selector functionality
+- Added settings for customizing input names for flowcards
 
 **Version 0.0.3:**
 - Added flow conditions and volume up/down action
