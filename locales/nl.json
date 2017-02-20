@@ -1,12 +1,20 @@
 {
 	"pair": {
 		"start": {
-      "intro": "Vul het IP adres van uw apparaat in en geef het een naam.",
+      "intro": "Vul het IP adres van uw apparaat in, geef het een naam. Tevens kunt U de benaming van de inputs van de versterker aanpassen.",
 			"title": "Apparaat zoeken...",
 			"error": "Er is een fout opgetreden.",
       "required": "IP adres is verplicht.",
       "ipAddress": "IP adres",
-			"deviceName": "Naam van het apparaat",
+      "deviceName": "Naam van het apparaat",
+      "input0": "Coaxial1",
+      "input1": "Coaxial2",
+      "input2": "Optical1",
+      "input3": "Optical2",
+      "input4": "Computer",
+      "input5": "Streaming",
+      "input6": "USB Dock",
+      "input7": "BT",
       "saveSettings": "Gegevens opslaan"
 		}
   }
