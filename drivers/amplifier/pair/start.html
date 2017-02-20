@@ -22,6 +22,14 @@ function saveSettings () {
 	// variables
 	var inputIPAddress = document.getElementById( 'ipAddress' ).value;
 	var inputDeviceName = document.getElementById( 'deviceName' ).value;
+	var input0 = document.getElementById( 'input0' ).value;
+	var input1 = document.getElementById( 'input1' ).value;
+	var input2 = document.getElementById( 'input2' ).value;
+	var input3 = document.getElementById( 'input3' ).value;
+	var input4 = document.getElementById( 'input4' ).value;
+	var input5 = document.getElementById( 'input5' ).value;
+	var input6 = document.getElementById( 'input6' ).value;
+	var input7 = document.getElementById( 'input7' ).value;
 
 	// If required values are filled in
 	// FIXME: should check if this is a real IPv4 address
@@ -31,7 +39,15 @@ function saveSettings () {
 		// Build data array
 		var data = {
 			ipaddress: inputIPAddress,
-			deviceName: inputDeviceName
+			deviceName: inputDeviceName,
+			input0: input0,
+			input1: input1,
+			input2: input2,
+			input3: input3,
+			input4: input4,
+			input5: input5,
+			input6: input6,
+			input7: input7
 		};
 
 		// Continue to back-end, pass along data
@@ -50,7 +66,7 @@ function saveSettings () {
 
 </script>
 
-    <p data-i18n="pair.start.intro">enter IP address and name</p>
+    <p data-i18n="pair.start.intro">enter IP address (required), name and input aliases (optional) below.</p>
 
 		<style>
 			.pairSettings {
@@ -72,6 +88,38 @@ function saveSettings () {
 			<tr>
 				<td style="width:100px;" data-i18n="pair.start.deviceName">Name</td>
 				<td><input id="deviceName" type="text" value="NAD D7050" placeholder=""/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input0">Coax 1</td>
+				<td><input id="input0" type="text" value="Coax 1" placeholder="Coax 1"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input1">Coax 2</td>
+				<td><input id="input1" type="text" value="Coax 2" placeholder="Coax 2"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input2">Optical 1</td>
+				<td><input id="input2" type="text" value="Optical 1" placeholder="Optical 1"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input3">Optical 2</td>
+				<td><input id="input3" type="text" value="Optical 2" placeholder="Optical 2"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input4">Computer</td>
+				<td><input id="input4" type="text" value="Computer" placeholder="Computer"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input5">Streaming</td>
+				<td><input id="input5" type="text" value="Streaming" placeholder="Streaming"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input6">USB Dock</td>
+				<td><input id="input6" type="text" value="USB Dock" placeholder="USB Dock"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.input7">BT</td>
+				<td><input id="input7" type="text" value="BT" placeholder="BT"/></td>
 			</tr>
 		</table>
 
