@@ -32,19 +32,19 @@
             "setable": true,
 			"values": [
 			{	"id": "0",
-				"title": { "en": "Coax 1"
+				"title": { "en": "Coaxial1"
 			}
 			},
 			{	"id": "1",
-				"title": { "en": "Coax 2"
+				"title": { "en": "Coaxial2"
 			}
 			},
 			{	"id": "2",
-				"title": { "en": "Optical 1"
+				"title": { "en": "Optical1"
 			}
 			},
 			{	"id": "3",
-				"title": { "en": "Optical 2"
+				"title": { "en": "Optical2"
 			}
 			},
 			{	"id": "4",
@@ -56,7 +56,7 @@
 			}
 			},
 			{	"id": "6",
-				"title": { "en": "USB Dock"
+				"title": { "en": "Dock"
 			}
 			},
 			{	"id": "7",
@@ -76,7 +76,7 @@
 			"large": "drivers/amplifier/assets/images/large.jpg",
 			"small": "drivers/amplifier/assets/images/small.jpg"
 		},
-		"class": "other",
+		"class": "speaker",
 
 		"capabilities": [ "onoff" , "volume_mute", "input_selected", "volume_set" ],
 		"mobile": {
@@ -89,7 +89,16 @@
                 	},{
               
                     		"id": "slider",
-                    		"capabilities": [ "volume_set" ]
+                    		"capabilities": [ "volume_set" ],
+				"options": { 
+					"showTitle": true 
+				} 
+                	},{
+                    		"id": "toggle",
+                    		"capabilities": [ "volume_mute" ],
+				"options": { 
+					"showTitle": true 
+				}
                 	}]
 		},
 		"pair": [{
@@ -118,7 +127,72 @@
 					"nl": "IP adres"
 				},
 				"value": "0.0.0.0"
-			}]
+			},{
+				"id": "input0",
+				"type": "text",
+				"label": {
+					"en": "Coaxial1 input",
+					"nl": "Coaxial1 input"
+				},
+				"value": "Coaxial1"
+			},{
+				"id": "input1",
+				"type": "text",
+				"label": {
+					"en": "Coaxial2 input",
+					"nl": "Coaxial2 input"
+				},
+				"value": "Coaxial2"
+			},{
+				"id": "input2",
+				"type": "text",
+				"label": {
+					"en": "Optical1 input",
+					"nl": "Optical1 input"
+				},
+				"value": "Optical1"
+			},{
+				"id": "input3",
+				"type": "text",
+				"label": {
+					"en": "Optical2 input",
+					"nl": "Optical2 input"
+				},
+				"value": "Optical2"
+			},{
+				"id": "input4",
+				"type": "text",
+				"label": {
+					"en": "Computer input",
+					"nl": "Computer input"
+				},
+				"value": "Computer"
+			},{
+				"id": "input5",
+				"type": "text",
+				"label": {
+					"en": "Streaming input",
+					"nl": "Streaming input"
+				},
+				"value": "streaming"
+			},{
+				"id": "input6",
+				"type": "text",
+				"label": {
+					"en": "USB Dock input",
+					"nl": "USB Dock input"
+				},
+				"value": "USB Dock"
+			},{
+				"id": "input7",
+				"type": "text",
+				"label": {
+					"en": "BT input",
+					"nl": "BT input"
+				},
+				"value": "USB Dock"
+			}	
+			]
 		}]
 	}],
 	"flow": {
