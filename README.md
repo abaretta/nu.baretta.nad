@@ -38,15 +38,19 @@ Auto shutoff
 
 The 'auto shutoff' feature activates the chosen power saving mode after idling for 15 minutes. Note that the D7050 appears to have a bug which prevents auto-shutoff when Spotify connect is used in certain cases.
 
-# TODO
+##### Donate: #####
+If you like the app you can show your appreciation by posting it in the [forum],
+and if you really like it you can donate. Feature requests can also be placed on
+the forum.
 
-Cleanup settings, look into custom input name settings for mobile input selector
+[![Paypal donate][pp-donate-image]][pp-donate-link]
 
+===============================================================================
 # Changelog
 
 **Version 0.0.4:**
-- Added mobile volume, mute and input selector functionality
-- Added settings for customizing input names for flowcards
+- Added mobile volume and input selector functionality
+
 
 **Version 0.0.3:**
 - Added flow conditions and volume up/down action
@@ -58,3 +62,5 @@ Cleanup settings, look into custom input name settings for mobile input selector
 **Version 0.0.1:**
 - Initial version
 
+[pp-donate-link]: https://www.paypal.me/Baretta
+[pp-donate-image]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif

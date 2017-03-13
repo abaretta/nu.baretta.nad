@@ -32,7 +32,7 @@
             "setable": true,
 			"values": [
 			{	"id": "0",
-				"title": { "en": "Coaxial1"
+				"title": { "en": "Squeezebox"
 			}
 			},
 			{	"id": "1",
@@ -40,11 +40,11 @@
 			}
 			},
 			{	"id": "2",
-				"title": { "en": "Optical1"
+				"title": { "en": "DVD"
 			}
 			},
 			{	"id": "3",
-				"title": { "en": "Optical2"
+				"title": { "en": "TV"
 			}
 			},
 			{	"id": "4",
@@ -52,11 +52,11 @@
 			}
 			},
 			{	"id": "5",
-				"title": { "en": "Streaming"
+				"title": { "en": "Spotify"
 			}
 			},
 			{	"id": "6",
-				"title": { "en": "Dock"
+				"title": { "en": "USB Dock"
 			}
 			},
 			{	"id": "7",
@@ -67,14 +67,14 @@
         }
 },
 	"drivers": [{
-		"id": "amplifier",
+		"id": "d7050",
 		"name": {
 			"en": "NAD D7050 amplifier",
 			"nl": "NAD D7050 versterker"
 		},
 		"images": {
-			"large": "drivers/amplifier/assets/images/large.jpg",
-			"small": "drivers/amplifier/assets/images/small.jpg"
+			"large": "drivers/d7050/assets/images/large.jpg",
+			"small": "drivers/d7050/assets/images/small.jpg"
 		},
 		"class": "speaker",
 
@@ -84,8 +84,19 @@
 				"id": "icon",
 				"capabilities": [ "onoff" ] 
 			},{
-                    		"id": "picker",
-                    		"capabilities": [ "input_selected" ]
+              
+                    		"id": "sensor",
+                    		"capabilities": [ "volume_set" ],
+                            "capabilitiesOptions": {
+                                "volume_set": {
+                                    "showTitle": false 
+                                }
+                            },
+				"options": { 
+					"icons": {
+					"volume_set": "assets/speaker.svg"
+					}
+				} 
                 	},{
               
                     		"id": "slider",
@@ -93,6 +104,9 @@
 				"options": { 
 					"showTitle": true 
 				} 
+                	},{
+                    		"id": "picker",
+                    		"capabilities": [ "input_selected" ]
                 	},{
                     		"id": "toggle",
                     		"capabilities": [ "volume_mute" ],
@@ -209,7 +223,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "onoff",
@@ -224,7 +238,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "input_selected",
@@ -246,7 +260,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}],
 		"actions": [{
@@ -262,7 +276,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "powerOff",
@@ -277,7 +291,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "changeInput",
@@ -299,13 +313,13 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "Mute",
 			"title": {
-				"en": "Mute",
-				"nl": "Mute"
+				"en": "Enable mute",
+				"nl": "Zet mute aan"
 			},
 			"args": [{
 				"name": "device",
@@ -314,7 +328,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "unMute",
@@ -329,7 +343,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "autoShutOffOn",
@@ -344,7 +358,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "autoShutOffOff",
@@ -359,7 +373,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "powerSaveOn",
@@ -374,7 +388,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "powerSaveOff",
@@ -389,7 +403,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}]
 		}, {
 			"id": "volumeUp",
@@ -404,12 +418,12 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}, {
 				"name": "volume",
 				"type": "number",
 				"min": 1,
-				"max": 25,
+				"max": 50,
 				"placeholder": {
 					"en": "Volume increase (%)",
 					"nl": "Volume toename (%)"
@@ -428,12 +442,12 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}, {
 				"name": "volume",
 				"type": "number",
 				"min": 1,
-				"max": 25,
+				"max": 50,
 				"placeholder": {
 					"en": "Volume decrease (%)",
 					"nl": "Volume afname (%)"
@@ -452,7 +466,7 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				},
-				"filter": "driver_id=amplifier"
+				"filter": "driver_id=d7050"
 			}, {
 				"name": "volume",
 				"type": "number",
