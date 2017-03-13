@@ -32,7 +32,7 @@
             "setable": true,
 			"values": [
 			{	"id": "0",
-				"title": { "en": "Squeezebox"
+				"title": { "en": "Coaxial1"
 			}
 			},
 			{	"id": "1",
@@ -40,11 +40,11 @@
 			}
 			},
 			{	"id": "2",
-				"title": { "en": "DVD"
+				"title": { "en": "Optical1"
 			}
 			},
 			{	"id": "3",
-				"title": { "en": "TV"
+				"title": { "en": "Optical2"
 			}
 			},
 			{	"id": "4",
@@ -52,7 +52,7 @@
 			}
 			},
 			{	"id": "5",
-				"title": { "en": "Spotify"
+				"title": { "en": "Streaming"
 			}
 			},
 			{	"id": "6",
