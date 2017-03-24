@@ -6,6 +6,8 @@ In its current state, the app requires that you enter the amplifier's IP address
 
 The app is based on the Marantz app by  Marco van den Hout. 
 
+![](https://drive.google.com/uc?id=0B4QdLfQ7j41JUHRfTmRHT3JGT0k)
+
 Supported flow actions:
 
 * switch on / standby
