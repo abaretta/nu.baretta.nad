@@ -17,6 +17,7 @@ var IPPort = 50001;
 // it is generally advisable to keep a list of
 // paired and active devices in your driver's memory.
 var devices = {};
+var intervalID;
 //
 // All inputs for the NAD D7050 amplifier and a more friendly name to use.
 var allPossibleInputs = [{
@@ -156,6 +157,10 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
             switch (key) {
                 case 'settingIPAddress':
                     Homey.log('NAD D7050 app - IP address changed to ' + newSettingsObj.settingIPAddress);
+                    device_data.id = newSettingsObj.settingIPAddress;
+                    initDevice(device_data);
+                    clearInterval(intervalID);
+                    module.exports.capabilities.onoff.get(device_data, callback);
                     // FIXME: check if IP is valid, otherwise return callback with an error
                     break;
             }
@@ -176,7 +181,7 @@ module.exports.capabilities = {
 	    var device = getDeviceByData(device_data);
             if (device instanceof Error) return callback(device);
             Homey.log("NAD D7050 app - getting device on/off status of " + device_data.id);
-	    setInterval(function(){
+	    intervalID = setInterval(function(){
                 Homey.log("NAD D7050 app - updating state every 10s for " + device_data.id);
 		getStatus(device_data);
 	    },10000);

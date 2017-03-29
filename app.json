@@ -107,12 +107,6 @@
                 	},{
                     		"id": "picker",
                     		"capabilities": [ "input_selected" ]
-                	},{
-                    		"id": "toggle",
-                    		"capabilities": [ "volume_mute" ],
-				"options": { 
-					"showTitle": true 
-				}
                 	}]
 		},
 		"pair": [{
