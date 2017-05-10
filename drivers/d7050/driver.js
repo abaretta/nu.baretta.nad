@@ -532,6 +532,7 @@ function sendCommand(hostIP, command, callbackCommand) {
 }
 
 function searchForInputsByValue(value) {
+    value = value + "";	
     var possibleInputs = allPossibleInputs;
     var tempItems = [];
     for (var i = 0; i < possibleInputs.length; i++) {
