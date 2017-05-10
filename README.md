@@ -50,9 +50,11 @@ the forum.
 ===============================================================================
 # Changelog
 
+**Version 0.0.5:**
+- Small bugfix
+
 **Version 0.0.4:**
 - Added mobile volume and input selector functionality
-
 
 **Version 0.0.3:**
 - Added flow conditions and volume up/down action
