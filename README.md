@@ -1,10 +1,12 @@
 # NAD D7050 IP control app for Athom Homey
 
-This app lets you control a NAD D7050 amplifier from within flows on a Homey device (by Athom). Homey is NodeJS based and allows for apps to extend its functionality.
+This app lets you control NAD D7050 and C338 amplifiers from within flows or the mobile interface via a Homey home automation controller (by Athom). Homey is NodeJS based and allows for apps to extend its functionality.
 
 In its current state, the app requires that you enter the amplifier's IP address so it is advised to set it up to have a fixed IP address or a 'static lease' from the DHCP server.
 
-The app is based on the Marantz app by  Marco van den Hout. 
+Note that this SDK2 version differs from the previous version in that it stays connected with the amplifier. This means you cannot use it in combination with the NAD iPhone app as the port on the amplifier will be 'busy'. I will make this a configurable option later on. I also plan to add custom names for sources in the mobile interface, and the setting of default volume and source. And possibly mDNS discovery.
+
+Also note that the app is not yet tested on Homey V2.
 
 ![](https://drive.google.com/uc?id=0B4QdLfQ7j41JUHRfTmRHT3JGT0k)
 
@@ -38,17 +40,13 @@ In ECO mode the amplifier only uses about 1W. However in this mode it can only b
 
 Auto shutoff
 
-The 'auto shutoff' feature activates the chosen power saving mode after idling for 15 minutes. Note that the D7050 appears to have a bug which prevents auto-shutoff when Spotify connect is used in certain cases.
-
-##### Donate: #####
-If you like the app you can show your appreciation by posting it in the [forum],
-and if you really like it you can donate. Feature requests can also be placed on
-the forum.
-
-[![Paypal donate][pp-donate-image]][pp-donate-link]
+The 'auto shutoff' feature activates the chosen power saving mode after idling for 15 minutes. 
 
 ===============================================================================
 # Changelog
+
+**Version 0.0.6:**
+- SDK2 rewrite
 
 **Version 0.0.5:**
 - Small bugfix
@@ -66,5 +64,3 @@ the forum.
 **Version 0.0.1:**
 - Initial version
 
-[pp-donate-link]: https://www.paypal.me/Baretta
-[pp-donate-image]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif

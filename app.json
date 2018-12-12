@@ -1,26 +1,40 @@
 {
 	"id": "nu.baretta.nad",
+        "sdk": 2,
 	"name": {
-		"en": "NAD D7050"
+		"en": "NAD D7050 / C338 amplifier app"
 	},
-	"version": "0.0.5",
-	"compatibility": "1.x",
+	"version": "0.0.6",
+	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",
 		"email": "dev@baretta.nu"
 	},
+        "contributors": {
+          "developers": [
+            {
+              "name": "Anne Baretta",
+              "email": "dev@baretta.nu"
+            }
+          ]
+        },
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
 	},
 	"category": "appliances",
 	"description": {
-		"en": "NAD D7050 IP control app for Homey",
-		"nl": "Dit is een NAD D7050 IP aansturing app voor Homey"
+		"en": "NAD D7050 and C338 IP control app for Homey",
+		"nl": "Dit is een NAD D7050 en C338 IP aansturing app voor Homey"
 	},
-	"dependencies": {
-		"net": "*"
-	},
+    "contributing": {
+        "donate": {
+            "paypal": {
+                "username": "dev@baretta.nu"
+            }
+        }
+    },
+        "permissions": [],
 	"capabilities": {
         "input_selected": {
             "type": "enum",
@@ -69,34 +83,23 @@
 	"drivers": [{
 		"id": "d7050",
 		"name": {
-			"en": "NAD D7050 amplifier",
-			"nl": "NAD D7050 versterker"
+			"en": "NAD D7050/C338 amplifier",
+			"nl": "NAD D7050/C338 versterker"
 		},
 		"images": {
 			"large": "drivers/d7050/assets/images/large.jpg",
 			"small": "drivers/d7050/assets/images/small.jpg"
 		},
-		"class": "speaker",
+		"class": "amplifier",
 
-		"capabilities": [ "onoff" , "volume_mute", "input_selected", "volume_set" ],
+		"capabilities": [ "onoff" , "volume_mute", "input_selected", "volume_set", "volume_up", "volume_down" ],
 		"mobile": {
 			"components": [{
 				"id": "icon",
 				"capabilities": [ "onoff" ] 
 			},{
-              
-                    		"id": "sensor",
-                    		"capabilities": [ "volume_set" ],
-                            "capabilitiesOptions": {
-                                "volume_set": {
-                                    "showTitle": false 
-                                }
-                            },
-				"options": { 
-					"icons": {
-					"volume_set": "assets/speaker.svg"
-					}
-				} 
+                    		"id": "picker",
+                    		"capabilities": [ "input_selected" ]
                 	},{
               
                     		"id": "slider",
@@ -104,23 +107,24 @@
 				"options": { 
 					"showTitle": true 
 				} 
-                	},{
-                    		"id": "picker",
-                    		"capabilities": [ "input_selected" ]
                 	}]
 		},
-		"pair": [{
-			"id": "start"
-		}, {
-			"id": "list_amplifiers",
-			"template": "list_devices",
-			"navigation": {
-				"next": "add_amplifiers"
-			}
-		}, {
-			"id": "add_amplifiers",
-			"template": "add_devices"
-		}],
+      "pair": [
+         {
+            "id": "start"
+          },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
 		"settings": [{
 			"type": "group",
 			"label": {
@@ -130,6 +134,7 @@
 			"children": [{
 				"id": "settingIPAddress",
 				"type": "text",
+                                "pattern": "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5]).){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$",
 				"label": {
 					"en": "IP address",
 					"nl": "IP adres"
@@ -198,7 +203,7 @@
 					"en": "BT input",
 					"nl": "BT input"
 				},
-				"value": "USB Dock"
+				"value": "BT"
 			}	
 			]
 		}]
@@ -213,10 +218,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -228,10 +229,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -250,10 +247,6 @@
 			}, {
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}],
@@ -266,10 +259,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -281,14 +270,10 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
-			"id": "changeInput",
+			"id": "input_selected",
 			"title": {
 				"en": "Select source",
 				"nl": "Selecteer audio bron"
@@ -303,14 +288,10 @@
 			}, {
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
-			"id": "Mute",
+			"id": "mute",
 			"title": {
 				"en": "Enable mute",
 				"nl": "Zet mute aan"
@@ -318,10 +299,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -333,13 +310,20 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
+			"id": "toggleMute",
+			"title": {
+				"en": "Toggle mute",
+				"nl": "Toggle mute"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=d7050"
+			}]
+		},{
 			"id": "autoShutOffOn",
 			"title": {
 				"en": "Enable auto shut off",
@@ -348,10 +332,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -363,10 +343,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -378,10 +354,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -393,10 +365,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}]
 		}, {
@@ -408,10 +376,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}, {
 				"name": "volume",
@@ -432,10 +396,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}, {
 				"name": "volume",
@@ -456,10 +416,6 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				},
 				"filter": "driver_id=d7050"
 			}, {
 				"name": "volume",
