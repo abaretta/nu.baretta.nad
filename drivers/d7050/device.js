@@ -400,14 +400,7 @@ class D7050Device extends Homey.Device {
         const reader = promiseStream();
         readableStream.pipe(reader);
         // Read 20 bytes of data from the stream
-        const data = await reader.read(bytes);
-        //return await reader.read(bytes);
-        return await data;
-
-        //readableStream.unpipe(reader);
-        //reader.destroy();
-        //readableStream.destroy();
-        //return await 0
+        return await reader.read(bytes);
     }
 
     async sendCommand(device, command, poll) {
