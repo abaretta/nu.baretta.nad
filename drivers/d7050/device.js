@@ -2,6 +2,7 @@
 'use strict';
 
 const Homey = require('homey');
+const promiseStream = require('promise-stream-reader');
 
 // We need network functions.
 var net = require('net');
@@ -9,12 +10,8 @@ var net = require('net');
 // keep a list of devices in memory
 var devices = [];
 
-// client holds net.Socket
-var client = "";
-// receivedData holds unparsed data received from the client (data received over the network)
-var receivedData = "";
-
 var IPPort = 50001;
+
 var allPossibleInputs = [{
     inputName: "0",
     friendlyName: "Coaxial1"
@@ -50,15 +47,13 @@ class D7050Device extends Homey.Device {
         var interval = 10;
 
         this.log('device init');
-        //console.dir(this.getSettings()); // for debugging
-        //console.dir(this.getData()); // for debugging
         this.log('name: ', this.getName());
         this.log('class: ', this.getClass());
         let id = this.getData().id;
         this.log('id: ', id);
 
         devices[id] = {};
-        devices[id].client = "";
+        devices[id].client = {};
         devices[id].receivedData = "";
 
         // console.dir(devices); // for debugging
@@ -164,22 +159,10 @@ class D7050Device extends Homey.Device {
         let volumeDownAction = new Homey.FlowCardAction('volumeDown');
         volumeDownAction
             .register().registerRunListener((args, state) => {
-                this.log("Flow card action setVolumeDown args " + args);
                 this.log(" setVolume volume Down " + args.volume);
                 this.onActionVolumeDown(args.device, args.volume);
                 return Promise.resolve(true);
             });
-
-        /*  let setVolumeStepAction = new Homey.FlowCardAction('setVolumeStep');
-          setVolumeStepAction
-                  .register().registerRunListener((args, state) => {
-                          this.log("Flow card action setVolumeStep args: "+args);
-                          this.log(" setVolumeStep volumeChange "+args.volumeChange);
-                          this.onActionSetVolumeStep (args.device, args.volumeChange);
-                      //    this.onActionSetVolumeStep (args.device, args.zone.zone, args.volumeChange);
-                          return Promise.resolve(true);
-                  }
-          ); */
 
         let changeInputAction = new Homey.FlowCardAction('input_selected');
         changeInputAction
@@ -188,8 +171,6 @@ class D7050Device extends Homey.Device {
                 this.log("Flow card action changeInput args " + args);
                 this.log(" changeInput input " + args.input.inputName);
                 this.onActioninput_selected(args.device, args.input.inputName);
-                // this.onActionChangeInput(args.device, args.input.inputName);
-                //     this.onActionChangeInput (args.device, args.zone.zone, args.input.inputName);
                 return Promise.resolve(true);
             });
 
@@ -201,7 +182,6 @@ class D7050Device extends Homey.Device {
             });
 
         this.pollDevice(interval);
-
     } // end onInit
 
     // this method is called when the Device is added
@@ -209,9 +189,8 @@ class D7050Device extends Homey.Device {
         let id = this.getData().id;
         this.log('device added: ', id);
         devices[id] = {};
-        devices[id].client = "";
+        devices[id].client = {};
         devices[id].receivedData = "";
-        //                              console.dir(devices);                           // for debugging
         var interval = 10;
         this.pollDevice(interval);
     }
@@ -222,7 +201,6 @@ class D7050Device extends Homey.Device {
         this.log('device deleted: ', id);
         delete devices[id];
         clearInterval(this.pollingInterval);
-        //                              console.dir(devices);                           // for debugging
     }
 
     // this method is called when the Device has requested a state change (turned on or off)
@@ -230,9 +208,9 @@ class D7050Device extends Homey.Device {
         // ... set value to real device
         this.log("Capability called: onoff value: ", value);
         if (value) {
-            this.powerOn(this, "Whole unit");
+            this.powerOn(this);
         } else {
-            this.powerOff(this, "Whole unit");
+            this.powerOff(this);
         }
         // Then, emit a callback ( err, result )
         callback(null);
@@ -257,13 +235,13 @@ class D7050Device extends Homey.Device {
 
     onCapabilityVolumeUp(value, opts, callback) {
         this.log("Capability called: volume_up");
-        this.volumeUp(this);
+        this.volumeUp(this, value);
         callback(null);
     }
 
     onCapabilityVolumeDown(value, opts, callback) {
         this.log("Capability called: volume_down");
-        this.volumeDown(this);
+        this.volumeDown(this, value);
         callback(null);
     }
 
@@ -324,13 +302,13 @@ class D7050Device extends Homey.Device {
     powerOn(device) {
         var command = '0001020901';
         device.sendCommand(device, command, 0);
+        this.setCapabilityValue('onoff', true)
     }
 
     powerOff(device) {
         var command = '0001020900';
-        //module.exports.realtime( device, 'onoff', false);
         device.sendCommand(device, command, 0);
-        //sendCommandToDevice(device, command);
+        this.setCapabilityValue('onoff', false)
     }
 
     autoShutOffOn(device) {
@@ -359,220 +337,219 @@ class D7050Device extends Homey.Device {
         var command = '000102030' + input;
         this.log("Change input to: " + input);
         device.sendCommand(device, command, 0);
+        this.setCapabilityValue('input_selected', input)
     }
 
     mute(device) {
         var command = '0001020a01';
         device.sendCommand(device, command, 0);
+        this.setCapabilityValue('volume_mute', true)
     }
 
     unMute(device) {
         var command = '0001020a00';
         device.sendCommand(device, command, 0);
+        this.setCapabilityValue('volume_mute', false)
     }
 
     toggleMute(device) {
         device.log("Volume_mute: " + this.getCapabilityValue('volume_mute'))
         if (this.getCapabilityValue('volume_mute') == true) {
             var command = '0001020a00';
+            this.setCapabilityValue('volume_mute', false)
         } else {
             var command = '0001020a01';
+            this.setCapabilityValue('volume_mute', true)
         }
         device.sendCommand(device, command, 0);
     }
 
     setVolume(device, targetVolume) {
+        this.log("Device in setVolume: ")
         // volume ranges from 0 (-90dB) to 200 (10dB) on the D7050. Add 2 to compensate for max of 99 in GUI
-        //var Volume_hex = (200 * parseFloat(targetVolume).toFixed(2) + 2).toString(16);
-        var Volume_hex = (200 * targetVolume).toString(16);
+        this.setCapabilityValue('volume_set', targetVolume);
+        var Volume_hex = (200 * parseFloat(targetVolume).toFixed(2)).toString(16);
         if (Volume_hex.length < 2) Volume_hex = '0' + Volume_hex;
+        if (Volume_hex.length > 2) Volume_hex = Volume_hex.slice(0, 2);
         this.log("setVolume targetVolume: " + targetVolume);
         this.log("Volume_hex: " + Volume_hex);
         var command = '00010204' + Volume_hex;
-        //sendCommandToDevice(device, command);
         this.log("setVolume: " + targetVolume + " command: " + command);
         device.sendCommand(device, command, 0);
-    }
-
-    setVolumeStep(device, volumeChange) {
-        // Step up or down the volume. Argument volumeChange is the difference (e.g. +10 is 10 steps up or -5 is 5 steps down)
-        var upOrDown = null;
-        if (volumeChange > 0) {
-            upOrDown = 'UP';
-        }
-        if (volumeChange < 0) {
-            upOrDown = 'DOWN';
-        }
-        if (upOrDown !== null) {
-
-            for (var i = 0; i < Math.abs(volumeChange); i++) {
-                setTimeout(device.sendCommand, (i * 750), device, command, 0);
-            }
-        }
     }
 
     volumeUp(device, step) {
         var currentVolume = this.getCapabilityValue('volume_set');
         this.log("currentVolume: " + currentVolume);
-        //var targetVolume = currentVolume + 0.1;
         var targetVolume = currentVolume + (step / 100);
         targetVolume = targetVolume.toFixed(2);
         this.log("volumeUp targetVolume: " + targetVolume);
-        this.log("targetVolume: " + targetVolume);
         device.setVolume(device, targetVolume);
     }
 
     volumeDown(device, step) {
         var currentVolume = this.getCapabilityValue('volume_set');
         device.log("currentVolume: " + currentVolume);
-        //var targetVolume = currentVolume - 0.1;
         var targetVolume = currentVolume - (step / 100);
         targetVolume = targetVolume.toFixed(2);
         device.log("volumeDown targetVolume: " + targetVolume);
         device.setVolume(device, targetVolume);
     }
 
-    sendCommand(device, command, poll) {
-        //let hostIP = device;
-        let hostIP = this.getData().id;
-        this.log("hostIP: " + hostIP);
-        //this.log("id: " + id);
-        let client = devices[hostIP].client;
-        // check if client (net.Socket) already exists, if not then open one.
-        if ((typeof (client) === 'undefined') || (typeof (client.destroyed) != 'boolean') || (client.destroyed == true)) {
-            this.log("Opening new net.Socket to " + hostIP + ":" + IPPort);
-            client = new net.Socket();
-            client.connect(IPPort, hostIP);
-            // add handler for any response or other data coming from the device
-            client.on('data', function (data) {
-                let tempData = data.toString('hex');
-                devices[hostIP].receivedData += tempData;
-            })
-        }
-        client.on('error', function (err) {
-            console.log("IP socket error: " + err.message);
-            if (typeof (client.destroy) == 'function') {
-                client.destroy();
+    async readStream(readableStream, bytes) {
+        const reader = promiseStream();
+        readableStream.pipe(reader);
+        // Read 20 bytes of data from the stream
+        const data = await reader.read(bytes);
+        //return await reader.read(bytes);
+        return await data;
+
+        //readableStream.unpipe(reader);
+        //reader.destroy();
+        //readableStream.destroy();
+        //return await 0
+    }
+
+    async sendCommand(device, command, poll) {
+        try {
+            //let hostIP = device;
+            let id = this.getData().id;
+            this.log("hostIP: " + id);
+            //this.log("id: " + id);
+            let client = devices[id].client;
+            devices[id].receivedData = "";
+            // check if client (net.Socket) already exists, if not then open one.
+            if ((typeof (client) === 'undefined') || (typeof (client.destroyed) != 'boolean') || (client.destroyed == true)) {
+                this.log("Opening new net.Socket to " + id + ":" + IPPort);
+                client = new net.Socket();
+                client.connect(IPPort, id);
+
+                client.on('error', (err) => {
+                    this.log("IP socket error: " + err.message);
+                    reachable += 1;
+                    if (reachable >= 3) {
+                        this.log("NAD D7050 app - unreachable, assume powered off ");
+                        this.setCapabilityValue("onoff", false);
+                        this.setUnavailable("Amplifier offline");
+                        return 0;
+                    }
+                    if (typeof (client.destroy) == 'function') {
+                        this.log("Destroy connection")
+                        client.destroy();
+                    }
+                })
+
+                devices[id].client = client;
             }
-        })
-        devices[hostIP].client = client;
-        //console.dir(client);                    // for debugging, spit out the whole net.Socket to the console
-        client.write(Buffer.from(command, 'hex'));
-        this.log("Sent command: " + command);
-        //this.log("ReceivedData: " + devices[id].receivedData);
-        this.log("ReceivedData: " + devices[hostIP].receivedData);
-        if (poll == 1) {
-            //   device.parseResponse ([id].receivedData)
-            //var receivedData = devices[id].receivedData;
-            var receivedData = devices[hostIP].receivedData;
-            //devices[id].receivedData = "";
-            devices[hostIP].receivedData = "";
-            this.log("receivedData length: " + receivedData.length)
-            this.log("Parsing response, receivedData: " + receivedData);
-            return receivedData;
+            this.log("Writing command to client: " + command)
+            client.write(Buffer.from(command, 'hex'));
+
+            // add handler for any response or other data coming from the device
+            if (poll == 1) {
+                await this.readStream(client, 20).then((value) => {
+                        this.log("readStream result value: " + value.toString('hex'))
+                        devices[id].receivedData = value.toString('hex');
+                        //return devices[hostIP].receivedData;
+                    })
+                    .catch(err => {
+                        this.log(err)
+                    });
+            }
+            this.log("Poll: " + poll)
+            this.log("devices[id].receivedData type: " + typeof (devices[id].receivedData))
+            this.log("ReceivedData: " + devices[id].receivedData);
+            if ((devices[id].receivedData != 'undefined') && (typeof (devices[id].receivedData) === 'string')) {
+                reachable = 0;
+                this.setAvailable();
+                this.log("ReceivedData is not undefined: " + devices[id].receivedData)
+                return devices[id].receivedData
+            } else {
+                this.log("ReceivedData undefined: " + devices[id].receivedData)
+                return 0;
+            }
+        } catch (err) {
+            this.log(err)
         }
     }
 
     readData(receivedData) {
-        if (receivedData.length == 0) {
-            reachable += 1;
-            if (reachable >= 3) {
-                this.log("NAD D7050 app - unreachable, assume powered off ");
-                this.setCapabilityValue("onoff", false);
-                return 0;
+        try {
+            this.log("ReceivedData passed to readData: " + receivedData)
+            this.log("ReceivedData type: " + typeof (receivedData))
+
+            if ((typeof (receivedData) === 'string') && (receivedData.length >= 40)) {
+                this.log("NAD D7050 app - receivedData: " + receivedData);
+                reachable = 0;
+                this.setAvailable();
+
+                var onoffstring = receivedData.slice(0, 10);
+                this.log("onoffstring: " + onoffstring);
+
+                if (onoffstring.indexOf('0001020901') >= 0) {
+                    var onoffState = true;
+                    this.log("NAD D7050 app - on: " + onoffstring);
+                } else if (onoffstring.indexOf('0001020900') >= 0) {
+                    var onoffState = false;
+                    this.log("NAD D7050 app - in standby mode: " + onoffstring);
+                    // in standby mode the amplifier can be switched on using the app, so it is still available
+                } else {
+                    this.log("NAD D7050 app - unintelligible response ");
+                    var onoffState = false;
+                    return 0;
+                }
+                var input_selected = receivedData.slice(19, 20);
+                this.log("input_selected: " + input_selected);
+                var volumeState_hex = receivedData.slice(28, 30);
+                //this.log("Volume_hex:" + volumeState_hex)
+                var volume = Math.round(Number('0x' + volumeState_hex).toString(10));
+                this.log("volume: " + volume);
+                // Convert volume 0 - 200 to percentage for volume_set
+                var volume_percent = parseFloat(volume / 200).toFixed(2);
+                //this.log("Volume_percent:" + parseFloat(volume_percent.toFixed(2)))
+                //this.log("Volume_set:" + this.getCapabilityValue('volume_set'))
+                var mutestring = receivedData.slice(30, 40);
+                this.log("mutestring: " + mutestring);
+                if (mutestring.indexOf('0001020a01') >= 0) {
+                    this.log('NAD D7050 app - Amp is muted: ' + mutestring);
+                    var muteState = true;
+                } else {
+                    this.log('NAD D7050 app - Amp is not muted: ' + mutestring);
+                    var muteState = false;
+                }
+                if (this.getCapabilityValue('onoff') != onoffState) {
+                    this.setCapabilityValue('onoff', onoffState);
+                }
+                if (this.getCapabilityValue('input_selected') != input_selected) {
+                    this.setCapabilityValue('input_selected', input_selected);
+                }
+                if (this.getCapabilityValue('volume_set') != volume_percent) {
+                    this.setCapabilityValue('volume_set', volume_percent);
+                }
+                if (this.getCapabilityValue('volume_mute') != muteState) {
+                    this.setCapabilityValue('volume_mute', muteState);
+                }
+                return 1;
             }
+        } catch (err) {
+            //  return 0;
+            this.log(err)
         }
-        if (receivedData.length >= 40) {
-            this.log("NAD D7050 app - receivedData: " + receivedData);
-            reachable = 0;
-
-            var onoffstring = receivedData.slice(0, 10);
-            this.log("onoffstring: " + onoffstring);
-
-            if (onoffstring.indexOf('0001020901') >= 0) {
-                var onoffState = true;
-                this.log("NAD D7050 app - on: " + onoffstring);
-            } else if (onoffstring.indexOf('0001020900') >= 0) {
-                var onoffState = false;
-                this.log("NAD D7050 app - in standby mode: " + onoffstring);
-                // in standby mode the amplifier can be switched on using the app, so it is still available
-            } else {
-                this.log("NAD D7050 app - unintelligle response ");
-                return 0;
-            }
-            var input_selected = receivedData.slice(19, 20);
-            this.log("input_selected: " + input_selected);
-            var volumeState_hex = receivedData.slice(28, 30);
-            //this.log("Volume_hex:" + volumeState_hex)
-            var volume = Math.round(Number('0x' + volumeState_hex).toString(10));
-            this.log("volume: " + volume);
-            // Convert volume 0 - 200 to percentage for volume_set
-            var volume_percent = volume / 200;
-            //this.log("Volume_percent:" + parseFloat(volume_percent.toFixed(2)))
-            //this.log("Volume_set:" + this.getCapabilityValue('volume_set'))
-            var mutestring = receivedData.slice(30, 40);
-            this.log("mutestring: " + mutestring);
-            if (mutestring.indexOf('0001020a01') >= 0) {
-                this.log('NAD D7050 app - Amp is muted: ' + mutestring);
-                var muteState = true;
-            } else {
-                this.log('NAD D7050 app - Amp is not muted: ' + mutestring);
-                var muteState = false;
-            }
-            if (this.getCapabilityValue('onoff') != onoffState) {
-                this.setCapabilityValue('onoff', onoffState);
-            }
-            if (this.getCapabilityValue('input_selected') != input_selected) {
-                this.setCapabilityValue('input_selected', input_selected);
-            }
-            if (this.getCapabilityValue('volume_set') != volume_percent.toFixed(2)) {
-                this.setCapabilityValue('volume_set', parseFloat(volume_percent.toFixed(2)));
-            }
-            if (this.getCapabilityValue('volume_mute') != muteState) {
-                this.setCapabilityValue('volume_mute', muteState);
-            }
-
-            /*
-                            // error 'out of range'. Convert volume 0 - 200 to percentage for volume_set
-                            var volume_percent = volume / 200;
-                            console.log("volume_percent: " + volume_percent.toFixed(2));
-                            this.setCapabilityValue("volume_set", volume_percent.toFixed(2));
-                            */
-        }
-        return 1;
     }
 
-    fetch(HostIP, command, poll) {
-        let promise = new Promise((resolve, reject) => {
-            resolve(this.sendCommand(HostIP, command, poll));
-        });
-
-        return promise
-            .then(result => this.readOutput(result))
-            .catch(err => this.log(err));
-    }
-
-    readOutput(receivedData) {
-        return new Promise((resolve, reject) => {
-            resolve(this.readData(receivedData));
-        });
+    async executeAsyncTask(id, command, poll) {
+        const receivedData = await this.sendCommand(id, command, poll)
+        return await this.readData(receivedData)
     }
 
     pollDevice(interval) {
-        //console.dir(this.getSettings()); // for debugging
-        //console.dir(this.getData());
         clearInterval(this.pollingInterval);
-        let settings = this.getSettings();
-        let hostIP = settings.settingIPAddress;
         let id = this.getData().id;
-        let client = devices[id].client;
         // poll power, input, volume and mute state - refer to NAD-hex-switches.txt
         var command = '000102020900010202030001020204000102020a';
 
         this.pollingInterval = setInterval(() => {
             // poll status
-            this.fetch(hostIP, command, 1);
-            // .then(x => this.log('Result: ' + x));
+            this.executeAsyncTask(id, command, 1)
         }, 1000 * interval);
     }
 
