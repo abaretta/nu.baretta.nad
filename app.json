@@ -2,7 +2,7 @@
 	"id": "nu.baretta.nad",
         "sdk": 2,
 	"name": {
-		"en": "NAD D7050 / C338 amplifier app"
+		"en": "NAD D7050 (and C338|C368|C388} amplifier app"
 	},
 	"version": "0.0.6",
 	"compatibility": ">=1.5.0",
@@ -24,9 +24,27 @@
 	},
 	"category": "appliances",
 	"description": {
-		"en": "NAD D7050 and C338 IP control app for Homey",
-		"nl": "Dit is een NAD D7050 en C338 IP aansturing app voor Homey"
+		"en": "NAD D7050 IP control app for Homey. NAD C338, C368 and C388 fitted with a BluOS Module should also (at least partly) work.",
+		"nl": "Dit is een app om de NAD D7050 via het netwerk aan te sturen. NAD C338, C368 en C388 met een BluOS Module zouden moeten ook (tenminste gedeeltelijk) moeten werken."
 	},
+        "tags": {
+                "en": [
+                        "amplifier",
+                        "NAD",
+                        "D7050",
+                        "C338",
+                        "C368",
+                        "C388"
+                ],
+                "nl": [
+                        "versterker",
+                        "NAD",
+                        "D7050",
+                        "C338",
+                        "C368",
+                        "C388"
+                ]
+        },
     "contributing": {
         "donate": {
             "paypal": {
@@ -83,8 +101,8 @@
 	"drivers": [{
 		"id": "d7050",
 		"name": {
-			"en": "NAD D7050/C338 amplifier",
-			"nl": "NAD D7050/C338 versterker"
+			"en": "NAD D7050/C3x8 amplifier",
+			"nl": "NAD D7050/C3x8 versterker"
 		},
 		"images": {
 			"large": "drivers/d7050/assets/images/large.jpg",

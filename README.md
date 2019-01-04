@@ -1,7 +1,7 @@
 # NAD D7050 IP control app for Athom Homey
 
-This app lets you control NAD D7050 and C338 amplifiers from within flows or the mobile interface via a Homey home automation controller (by Athom). Homey is NodeJS based and allows for apps to extend its functionality.
-
+This app lets you control NAD D7050 amplifiers from within flows or the mobile interface via a Homey home automation controller (by Athom). Note that the app may (or should) also work on NAD C338, 368 and C388 amplifiers with a BluOS Module fitted, however this is untested. There are differences in the inputs, let me know if you have such and amplifier and you want to use it with Homey. I can then add a driver for the inputs supported by that model.
+ 
 In its current state, the app requires that you enter the amplifier's IP address so it is advised to set it up to have a fixed IP address or a 'static lease' from the DHCP server.
 
 Note that this SDK2 version differs from the previous version in that it stays connected with the amplifier. This means you cannot use it in combination with the NAD iPhone app as the port on the amplifier will be 'busy'. I will make this a configurable option later on. I also plan to add custom names for sources in the mobile interface, and the setting of default volume and source. And possibly mDNS discovery.
