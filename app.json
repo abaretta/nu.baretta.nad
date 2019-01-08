@@ -1,8 +1,8 @@
 {
 	"id": "nu.baretta.nad",
-        "sdk": 2,
+	"sdk": 2,
 	"name": {
-		"en": "NAD D7050 (and C338|C368|C388} amplifier app"
+		"en": "NAD Electronics amplifiers"
 	},
 	"version": "0.0.6",
 	"compatibility": ">=1.5.0",
@@ -10,99 +10,94 @@
 		"name": "Anne Baretta",
 		"email": "dev@baretta.nu"
 	},
-        "contributors": {
-          "developers": [
-            {
-              "name": "Anne Baretta",
-              "email": "dev@baretta.nu"
-            }
-          ]
-        },
+	"contributors": {
+		"developers": [{
+			"name": "Anne Baretta",
+			"email": "dev@baretta.nu"
+		}]
+	},
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
 	},
 	"category": "appliances",
 	"description": {
-		"en": "NAD D7050 IP control app for Homey. NAD C338, C368 and C388 fitted with a BluOS Module should also (at least partly) work.",
-		"nl": "Dit is een app om de NAD D7050 via het netwerk aan te sturen. NAD C338, C368 en C388 met een BluOS Module zouden moeten ook (tenminste gedeeltelijk) moeten werken."
+		"en": "NAD D7050 and C338/368/388 IP control app for Homey",
+		"nl": "NAD D7050 en C338/368/388 app voor Homey"
 	},
-        "tags": {
-                "en": [
-                        "amplifier",
-                        "NAD",
-                        "D7050",
-                        "C338",
-                        "C368",
-                        "C388"
-                ],
-                "nl": [
-                        "versterker",
-                        "NAD",
-                        "D7050",
-                        "C338",
-                        "C368",
-                        "C388"
-                ]
-        },
-    "contributing": {
-        "donate": {
-            "paypal": {
-                "username": "dev@baretta.nu"
-            }
-        }
-    },
-        "permissions": [],
+	"contributing": {
+		"donate": {
+			"paypal": {
+				"username": "dev@baretta.nu"
+			}
+		}
+	},
+	"permissions": [],
 	"capabilities": {
-        "input_selected": {
-            "type": "enum",
-            "title": {
-                "en": "Selected source",
-		"nl": "Geselecteerde bron"
-            },
-            "getable": true,
-            "setable": true,
-			"values": [
-			{	"id": "0",
-				"title": { "en": "Coaxial1"
-			}
+		"input_selected": {
+			"type": "enum",
+			"title": {
+				"en": "Selected source",
+				"nl": "Geselecteerde bron"
 			},
-			{	"id": "1",
-				"title": { "en": "Coaxial2"
-			}
-			},
-			{	"id": "2",
-				"title": { "en": "Optical1"
-			}
-			},
-			{	"id": "3",
-				"title": { "en": "Optical2"
-			}
-			},
-			{	"id": "4",
-				"title": { "en": "Computer"
-			}
-			},
-			{	"id": "5",
-				"title": { "en": "Streaming"
-			}
-			},
-			{	"id": "6",
-				"title": { "en": "USB Dock"
-			}
-			},
-			{	"id": "7",
-				"title": { "en": "BT"
-			}
-			}
+			"getable": true,
+			"setable": true,
+			"values": [{
+					"id": "0",
+					"title": {
+						"en": "Coaxial1"
+					}
+				},
+				{
+					"id": "1",
+					"title": {
+						"en": "Coaxial2"
+					}
+				},
+				{
+					"id": "2",
+					"title": {
+						"en": "Optical1"
+					}
+				},
+				{
+					"id": "3",
+					"title": {
+						"en": "Optical2"
+					}
+				},
+				{
+					"id": "4",
+					"title": {
+						"en": "Computer"
+					}
+				},
+				{
+					"id": "5",
+					"title": {
+						"en": "Airplay"
+					}
+				},
+				{
+					"id": "6",
+					"title": {
+						"en": "USB Dock"
+					}
+				},
+				{
+					"id": "7",
+					"title": {
+						"en": "BT"
+					}
+				}
 			]
-        }
-},
+		}
+	},
 	"drivers": [{
 		"id": "d7050",
 		"name": {
-			"en": "NAD D7050/C3x8 amplifier",
-			"nl": "NAD D7050/C3x8 versterker"
+			"en": "NAD D7050 amplifier",
+			"nl": "NAD D7050 versterker"
 		},
 		"images": {
 			"large": "drivers/d7050/assets/images/large.jpg",
@@ -110,121 +105,77 @@
 		},
 		"class": "amplifier",
 
-		"capabilities": [ "onoff" , "volume_mute", "input_selected", "volume_set", "volume_up", "volume_down" ],
+		"capabilities": ["onoff", "volume_mute", "input_selected", "volume_set", "volume_up", "volume_down"],
 		"mobile": {
 			"components": [{
 				"id": "icon",
-				"capabilities": [ "onoff" ] 
-			},{
-                    		"id": "picker",
-                    		"capabilities": [ "input_selected" ]
-                	},{
-              
-                    		"id": "slider",
-                    		"capabilities": [ "volume_set" ],
-				"options": { 
-					"showTitle": true 
-				} 
-                	}]
+				"capabilities": ["onoff"]
+			}, {
+				"id": "picker",
+				"capabilities": ["input_selected"]
+			}, {
+
+				"id": "slider",
+				"capabilities": ["volume_set"],
+				"options": {
+					"showTitle": true
+				}
+			}]
 		},
-      "pair": [
-         {
-            "id": "start"
-          },
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-		"settings": [{
-			"type": "group",
-			"label": {
-				"en": "General settings",
-				"nl": "Algemene instellingen"
+		"pair": [{
+				"id": "start"
 			},
-			"children": [{
-				"id": "settingIPAddress",
-				"type": "text",
-                                "pattern": "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5]).){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$",
+			{
+				"id": "list_devices",
+				"template": "list_devices",
+				"navigation": {
+					"next": "add_devices"
+				}
+			},
+			{
+				"id": "add_devices",
+				"template": "add_devices"
+			}
+		],
+		"settings": [{
+				"type": "group",
 				"label": {
-					"en": "IP address",
-					"nl": "IP adres"
+					"en": "General settings",
+					"nl": "Algemene instellingen"
 				},
-				"value": "0.0.0.0"
-			},{
-				"id": "input0",
-				"type": "text",
+				"children": [{
+					"id": "settingIPAddress",
+					"type": "text",
+					"pattern": "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5]).){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$",
+					"label": {
+						"en": "IP address",
+						"nl": "IP adres"
+					},
+					"value": "0.0.0.0"
+				}]
+			},
+			{
+				"type": "group",
+				"collapsed": "true",
 				"label": {
-					"en": "Coaxial1 input",
-					"nl": "Coaxial1 input"
+					"en": "Optional connection setting",
+					"nl": "Optionele verbindingsinstelling"
 				},
-				"value": "Coaxial1"
-			},{
-				"id": "input1",
-				"type": "text",
-				"label": {
-					"en": "Coaxial2 input",
-					"nl": "Coaxial2 input"
-				},
-				"value": "Coaxial2"
-			},{
-				"id": "input2",
-				"type": "text",
-				"label": {
-					"en": "Optical1 input",
-					"nl": "Optical1 input"
-				},
-				"value": "Optical1"
-			},{
-				"id": "input3",
-				"type": "text",
-				"label": {
-					"en": "Optical2 input",
-					"nl": "Optical2 input"
-				},
-				"value": "Optical2"
-			},{
-				"id": "input4",
-				"type": "text",
-				"label": {
-					"en": "Computer input",
-					"nl": "Computer input"
-				},
-				"value": "Computer"
-			},{
-				"id": "input5",
-				"type": "text",
-				"label": {
-					"en": "Streaming input",
-					"nl": "Streaming input"
-				},
-				"value": "streaming"
-			},{
-				"id": "input6",
-				"type": "text",
-				"label": {
-					"en": "USB Dock input",
-					"nl": "USB Dock input"
-				},
-				"value": "USB Dock"
-			},{
-				"id": "input7",
-				"type": "text",
-				"label": {
-					"en": "BT input",
-					"nl": "BT input"
-				},
-				"value": "BT"
-			}	
-			]
-		}]
+				"children": [{
+					"id": "stayConnected",
+					"type": "checkbox",
+					"value": false,
+					"label": {
+						"en": "Stay connected (optional):",
+						"nl": "Houd verbinding in stand (optioneel):"
+					},
+					"hint": {
+						"en": "Optionally Homey can be permanently (and exclusively!) connected to the amplifier. Note that this excludes connections from other apps.",
+						"nl": "Homey kan permanent verbonden blijven met de versterker. Er zijn dan geen andere verbindingen mogelijk naar de versterker."
+					}
+				}]
+			}
+		]
 	}],
 	"flow": {
 		"conditions": [{
@@ -341,11 +292,11 @@
 				"type": "device",
 				"filter": "driver_id=d7050"
 			}]
-		},{
-			"id": "autoShutOffOn",
+		}, {
+			"id": "volume_up",
 			"title": {
-				"en": "Enable auto shut off",
-				"nl": "Activeer auto shut off"
+				"en": "Increase the volume",
+				"nl": "Verhoog het volume"
 			},
 			"args": [{
 				"name": "device",
@@ -353,32 +304,10 @@
 				"filter": "driver_id=d7050"
 			}]
 		}, {
-			"id": "autoShutOffOff",
+			"id": "volume_down",
 			"title": {
-				"en": "Disable auto shut off",
-				"nl": "Deactiveer auto shut off"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050"
-			}]
-		}, {
-			"id": "powerSaveOn",
-			"title": {
-				"en": "Enable power save mode",
-				"nl": "Activeer de spaarstand"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050"
-			}]
-		}, {
-			"id": "powerSaveOff",
-			"title": {
-				"en": "Disable power save mode",
-				"nl": "Deactiveer de spaarstand"
+				"en": "Decrease the volume",
+				"nl": "Verlaag het volume"
 			},
 			"args": [{
 				"name": "device",
@@ -444,6 +373,50 @@
 					"en": "Target volume",
 					"nl": "Gewenst volume"
 				}
+			}]
+		}, {
+			"id": "autoShutOffOn",
+			"title": {
+				"en": "Enable auto shut off",
+				"nl": "Activeer auto shut off"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=d7050"
+			}]
+		}, {
+			"id": "autoShutOffOff",
+			"title": {
+				"en": "Disable auto shut off",
+				"nl": "Deactiveer auto shut off"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=d7050"
+			}]
+		}, {
+			"id": "powerSaveOn",
+			"title": {
+				"en": "Enable power save mode",
+				"nl": "Activeer de spaarstand"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=d7050"
+			}]
+		}, {
+			"id": "powerSaveOff",
+			"title": {
+				"en": "Disable power save mode",
+				"nl": "Deactiveer de spaarstand"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=d7050"
 			}]
 		}]
 	}

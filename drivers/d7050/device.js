@@ -51,6 +51,9 @@ class D7050Device extends Homey.Device {
         this.log('class: ', this.getClass());
         let id = this.getData().id;
         this.log('id: ', id);
+        let settings = this.getSettings();
+        this.log('settings: ', this.getSettings());
+        this.log('settings IP address: ' + settings["settingIPAddress"])
 
         devices[id] = {};
         devices[id].client = {};
@@ -59,11 +62,11 @@ class D7050Device extends Homey.Device {
         // console.dir(devices); // for debugging
 
         // register capability listeners
-
-        // capability listeners for the mobile interface
         this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
         this.registerCapabilityListener('volume_set', this.onCapabilityVolumeSet.bind(this));
         this.registerCapabilityListener('input_selected', this.onCapabilityinput_selected.bind(this));
+        this.registerCapabilityListener('volume_up', this.onCapabilityVolumeUp.bind(this));
+        this.registerCapabilityListener('volume_down', this.onCapabilityVolumeDown.bind(this));
         // Would be nice to be able to have the mute function in the mobile interface as well
         //this.registerCapabilityListener('volume_mute', this.onCapabilityVolumeMute.bind(this));
 
@@ -142,15 +145,32 @@ class D7050Device extends Homey.Device {
         let setVolumeAction = new Homey.FlowCardAction('setVolume');
         setVolumeAction
             .register().registerRunListener((args) => {
-                this.log("Flow card action setVolume args ");
+                this.log("Flow card action setVolume ");
                 this.onActionSetVolume(this, args.volume);
                 return Promise.resolve(true);
             });
 
+        let volumeUpActionOrig = new Homey.FlowCardAction('volume_up');
+        volumeUpActionOrig
+            .register().registerRunListener((args) => {
+                this.log("Flow card action volumeUp (default) ");
+                this.onActionVolumeUp(this);
+                return Promise.resolve(true);
+            });
+
+        let volumeDownActionOrig = new Homey.FlowCardAction('volume_down');
+        volumeDownActionOrig
+            .register().registerRunListener((args) => {
+                this.log(" setVolume volume Down (default) ");
+                this.onActionVolumeDown(this);
+                return Promise.resolve(true);
+            });
+
+
         let volumeUpAction = new Homey.FlowCardAction('volumeUp');
         volumeUpAction
             .register().registerRunListener((args) => {
-                this.log("Flow card action volumeUp args ");
+                this.log("Flow card action volumeUp ");
                 this.onActionVolumeUp(this, args.volume);
                 return Promise.resolve(true);
             });
@@ -225,6 +245,20 @@ class D7050Device extends Homey.Device {
         callback(null);
     }
 
+    onCapabilityVolumeUp(value, opts, callback) {
+        this.log("Capability called: volume_up");
+        //this.volumeUp(this, value);
+        this.onActionVolumeUp(this, value);
+        callback(null);
+    }
+
+    onCapabilityVolumeDown(value, opts, callback) {
+        this.log("Capability called: volume_down");
+        //this.volumeDown(this, value);
+        this.onActionVolumeDown(this, value);
+        callback(null);
+    }
+
     onCapabilityVolumeSet(value, opts, callback) {
         var targetVolume = value;
         this.log("Capability called: volume_set, value: " + value + " calculated volume: " + targetVolume);
@@ -265,6 +299,9 @@ class D7050Device extends Homey.Device {
         var currentVolume = this.getCapabilityValue('volume_set');
         this.log("currentVolume: " + currentVolume);
         this.log("typeof currentVolume: " + typeof (currentVolume));
+        if (step == 'undefined') {
+            step = 5;
+        }
         var targetVolume = currentVolume + (step / 100);
         targetVolume = targetVolume.toFixed(2);
         this.log("volumeUp targetVolume: " + targetVolume);
@@ -276,6 +313,9 @@ class D7050Device extends Homey.Device {
         this.log("Action called: setVolumeDown");
         var currentVolume = this.getCapabilityValue('volume_set');
         device.log("currentVolume: " + currentVolume);
+        if (step == 'undefined') {
+            step = 5;
+        }
         var targetVolume = currentVolume - (step / 100);
         targetVolume = targetVolume.toFixed(2);
         device.log("volumeDown targetVolume: " + targetVolume);
@@ -288,58 +328,84 @@ class D7050Device extends Homey.Device {
         device.changeInputSource(device, input);
     }
 
+    // this method is called when a user changes settings
+    onSettings(settings, newSettingsObj, changedKeysArr, callback) {
+        try {
+            for (var i = 0; i < changedKeysArr.length; i++) {
+                switch (changedKeysArr[i]) {
+                    case 'settingIPaddress':
+                        this.log('IP address changed to ' + newSettingsObj.settingIPaddress);
+                        settings.settingIPaddress = newSettingsObj.settingIPaddress;
+                        break;
+
+                    case 'stayConnected':
+                        this.log('stayConnected changed to ' + newSettingsObj.stayConnected);
+                        settings.stayConnected = newSettingsObj.stayConnected;
+                        break;
+
+                    default:
+                        this.log("Key not matched: " + i);
+                        break;
+                }
+            }
+            callback(null, true)
+        } catch (error) {
+            callback(error, null)
+        }
+    }
+
     powerOn(device) {
         var command = '0001020901';
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
         this.setCapabilityValue('onoff', true)
     }
 
     powerOff(device) {
         var command = '0001020900';
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
         this.setCapabilityValue('onoff', false)
     }
 
     autoShutOffOn(device) {
         var command = '00010208010001020208';
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
     }
 
     // NB: there is a bug in the D7050 that prevents auto-shutoff when spotify was used in some cases
     // in the meantime the Spotify connect feature has been disabled... Need to re-test
     autoShutOffOff(device) {
         var command = '00010208000001020208';
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
     }
 
     // NB: power save enables 'ECO standby'. While in this mode, the amp can only be turned on by using the physical button or IR.
     powerSaveOn(device) {
         var command = '00010207010001020207';
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
     }
 
     powerSaveOff(device) {
         var command = '00010207000001020207';
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
     }
 
     changeInputSource(device, input) {
         var command = '000102030' + input;
         this.log("Change input to: " + input);
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
         this.setCapabilityValue('input_selected', input)
     }
 
     mute(device) {
         var command = '0001020a01';
         this.setCapabilityValue('volume_mute', true)
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
     }
 
     unMute(device) {
         var command = '0001020a00';
         this.setCapabilityValue('volume_mute', false)
-        device.sendCommand(device, command, 0);
+        device.sendCommand(command, 0);
     }
 
     toggleMute(device) {
@@ -360,10 +426,8 @@ class D7050Device extends Homey.Device {
         this.log("Volume_hex: " + Volume_hex);
         var command = '00010204' + Volume_hex;
         this.log("setVolume: " + targetVolume + " command: " + command);
-        device.sendCommand(device, command, 0);
-        this.log("setVolume targetVolume type before: " + typeof (targetVolume));
+        device.sendCommand(command, 0);
         targetVolume = parseFloat(targetVolume);
-        this.log("setVolume targetVolume type after: " + typeof (targetVolume));
         device.setCapabilityValue('volume_set', targetVolume);
     }
 
@@ -392,16 +456,20 @@ class D7050Device extends Homey.Device {
         return await reader.read(bytes);
     }
 
-    async sendCommand(device, command, poll) {
+    async sendCommand(command, poll) {
         try {
+            let settings = this.getSettings();
             let id = this.getData().id;
+            let ip = settings["settingIPAddress"];
+            let stayConnected = settings["stayConnected"];
             let client = devices[id].client;
             devices[id].receivedData = "";
             // check if client (net.Socket) already exists, if not then open one.
+            // console.dir(client)
             if ((typeof (client) === 'undefined') || (typeof (client.destroyed) != 'boolean') || (client.destroyed === true)) {
-                this.log("Opening new net.Socket to " + id + ":" + IPPort);
+                this.log("Opening new net.Socket to " + ip + ":" + IPPort);
                 client = new net.Socket();
-                client.connect(IPPort, id);
+                client.connect(IPPort, ip);
 
                 client.on('error', (err) => {
                     this.log("IP socket error: " + err.message);
@@ -417,14 +485,17 @@ class D7050Device extends Homey.Device {
                         client.destroy();
                     }
                 })
-                // Closing connection after time-out to free up port
-                setTimeout(() => {
-                    client.end();
-                    //this.log("Closing connection");
-                }, 1500);
+                // Closing connection after time-out to free up port, unless 'stayConnected' is defined
+                if (stayConnected != 'undefined' && stayConnected != true) {
+                    setTimeout(() => {
+                        client.end();
+                        //this.log("Closing connection");
+                    }, 1500);
+                }
+
                 devices[id].client = client;
             }
-            this.log("Writing command to client: " + command)
+            this.log("Writing command to client: " + command + " ip: " + ip)
             client.write(Buffer.from(command, 'hex'));
 
             // add handler for any response or other data coming from the device
@@ -501,9 +572,9 @@ class D7050Device extends Homey.Device {
         }
     }
 
-    async executeAsyncTask(id, command, poll) {
+    async executeAsyncTask(command, poll) {
         try {
-            const receivedData = await this.sendCommand(id, command, poll)
+            const receivedData = await this.sendCommand(command, poll)
             return await this.readData(receivedData)
         } catch (err) {
             this.log("AsyncTask error: " + err)
@@ -518,7 +589,7 @@ class D7050Device extends Homey.Device {
 
         this.pollingInterval = setInterval(() => {
             // poll status
-            this.executeAsyncTask(id, command, 1)
+            this.executeAsyncTask(command, 1)
         }, 1000 * interval);
     }
 

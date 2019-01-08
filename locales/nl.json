@@ -1,20 +1,13 @@
 {
 	"pair": {
 		"start": {
-      "intro": "Vul het IP adres van uw apparaat in, geef het een naam. Tevens kunt U de benaming van de inputs van de versterker aanpassen.",
+      "intro": "Vul het IP adres van uw apparaat in, geef het een naam. Als de optie 'stay connected' geselecteerd wordt blijft Homey permanent verbonden met de versterker. NB: dit is alleen handig als er geen andere apps gebruikt worden om de versterker via het netwerk te benaderen.",
 			"title": "Apparaat zoeken...",
 			"error": "Er is een fout opgetreden.",
       "required": "IP adres is verplicht.",
       "ipAddress": "IP adres",
       "deviceName": "Naam van het apparaat",
-      "input0": "Coaxial1",
-      "input1": "Coaxial2",
-      "input2": "Optical1",
-      "input3": "Optical2",
-      "input4": "Computer",
-      "input5": "Streaming",
-      "input6": "USB Dock",
-      "input7": "BT",
+      "stayConnected": "Stay connected",
       "saveSettings": "Gegevens opslaan"
 		}
   }

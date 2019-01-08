@@ -1,12 +1,13 @@
 {
 	"pair": {
 		"start": {
-      "intro": "Enter your device's IP address and give it a name.",
+      "intro": "Enter your device's IP address and give it a name. Select the option 'stay connected' to have Homey set up a permanent connection to the amplifier. NB: only use this option if no other apps are used which control the amplifier via the network. ",
 			"title": "Finding device...",
 			"error": "An error has occurred.",
       "required": "IP address is a required value.",
       "ipAddress": "IP address",
-			"deviceName": "Device name",
+      "deviceName": "Device name",
+      "stayConnected": "Stay connected",
       "saveSettings": "Save settings"
 		}
   }
