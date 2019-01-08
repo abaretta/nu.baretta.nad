@@ -1,12 +1,14 @@
-# NAD D7050 IP control app for Athom Homey
+# NAD Electronics amplifiers app for Athom Homey
 
-This app lets you control NAD D7050 amplifiers from within flows or the mobile interface via a Homey home automation controller (by Athom). Note that the app may (or should) also work on NAD C338, 368 and C388 amplifiers with a BluOS Module fitted, however this is untested. There are differences in the inputs, let me know if you have such and amplifier and you want to use it with Homey. I can then add a driver for the inputs supported by that model.
+This app lets you control NAD D7050 amplifiers from within flows or the mobile interface via a Homey home automation controller (by Athom). Note that the app may (or should) also work on NAD C338, 368 and C388 amplifiers with a BluOS Module fitted, however this is untested. There are differences in the inputs, let me know if you have such and amplifier and you want to use it with Homey. I can then add a driver for the inputs supported by that model. I will probably add a driver for the C338 shortly, it seems the only difference compared to the D7050 (feature wise) is that it has a phono input instead of bluetooth.
  
 In its current state, the app requires that you enter the amplifier's IP address so it is advised to set it up to have a fixed IP address or a 'static lease' from the DHCP server.
 
-Note that this SDK2 version differs from the previous version in that it stays connected with the amplifier. This means you cannot use it in combination with the NAD iPhone app as the port on the amplifier will be 'busy'. I will make this a configurable option later on. I also plan to add custom names for sources in the mobile interface, and the setting of default volume and source. And possibly mDNS discovery.
+In this SDK2 version an option is added to let the Homey app 'stay connected' to the amplifier. This means that Homey doesn't need to set up a new connection each time. However, it also means that the use of the Homey app cannot be combined with the NAD Electronics network (iPhone) app. 
 
-Also note that the app is not yet tested on Homey V2.
+Also note that the app has not yet been tested on Homey V2, however it does not use any (known ;-) unsupported features.
+
+# Support for 
 
 ![](https://drive.google.com/uc?id=0B4QdLfQ7j41JUHRfTmRHT3JGT0k)
 
@@ -18,13 +20,18 @@ Supported flow actions:
 * mute / unmute
 * enabling / disabling auto shut off
 * enabling / disabling power saving mode
-* increase / decrease volume
+* increase / decrease volume inc. option with custom step size
 
 Supported flow conditions:
 
 * device on/off
 * device muted/unmuted
 * input selected
+
+Supported flow triggers:
+
+* device on/off
+* volume changed
 
 Mobile capabilities:
 
