@@ -1,5 +1,8 @@
 # Changelog
 
+**Version 0.0.7**
+- Sorted out internationalization issues 
+
 **Version 0.0.6**
 - First SDKv2 version 
 - added 'stay connected' option

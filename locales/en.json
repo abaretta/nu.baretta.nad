@@ -6,7 +6,7 @@
 			"error": "An error has occurred.",
       "required": "IP address is a required value.",
       "ipAddress": "IP address",
-      "deviceName": "Device name",
+      "deviceName": "Name",
       "stayConnected": "Stay connected",
       "saveSettings": "Save settings"
 		}

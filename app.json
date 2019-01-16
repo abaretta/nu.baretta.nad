@@ -4,7 +4,7 @@
 	"name": {
 		"en": "NAD Electronics amplifiers"
 	},
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",
@@ -22,8 +22,8 @@
 	},
 	"category": "appliances",
 	"description": {
-		"en": "NAD D7050 and C338/368/388 IP control app for Homey",
-		"nl": "NAD D7050 en C338/368/388 app voor Homey"
+		"en": "NAD D7050 IP control app for Homey",
+		"nl": "NAD D7050 app voor Homey"
 	},
 	"contributing": {
 		"donate": {
