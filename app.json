@@ -4,7 +4,7 @@
 	"name": {
 		"en": "NAD Electronics amplifiers"
 	},
-	"version": "0.0.7",
+	"version": "0.0.6",
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",
@@ -22,8 +22,8 @@
 	},
 	"category": "appliances",
 	"description": {
-		"en": "NAD D7050 IP control app for Homey",
-		"nl": "NAD D7050 app voor Homey"
+		"en": "NAD D7050 and C338/368/388 IP control app for Homey",
+		"nl": "NAD D7050 en C338/368/388 app voor Homey"
 	},
 	"contributing": {
 		"donate": {
@@ -91,92 +91,235 @@
 					}
 				}
 			]
+		},
+		"input_selected_c338": {
+			"type": "enum",
+			"title": {
+				"en": "Selected source",
+				"nl": "Geselecteerde bron"
+			},
+			"getable": true,
+			"setable": true,
+			"values": [{
+					"id": "0",
+					"title": {
+						"en": "Coax1"
+					}
+				},
+				{
+					"id": "1",
+					"title": {
+						"en": "Coax2"
+					}
+				},
+				{
+					"id": "2",
+					"title": {
+						"en": "Opt1"
+					}
+				},
+				{
+					"id": "3",
+					"title": {
+						"en": "Opt2"
+					}
+				},
+				{
+					"id": "4",
+					"title": {
+						"en": "Stream"
+					}
+				},
+				{
+					"id": "5",
+					"title": {
+						"en": "Wireless"
+					}
+				},
+				{
+					"id": "6",
+					"title": {
+						"en": "TV"
+					}
+				},
+				{
+					"id": "7",
+					"title": {
+						"en": "Phono"
+					}
+				}
+			]
 		}
 	},
 	"drivers": [{
-		"id": "d7050",
-		"name": {
-			"en": "NAD D7050 amplifier",
-			"nl": "NAD D7050 versterker"
-		},
-		"images": {
-			"large": "drivers/d7050/assets/images/large.jpg",
-			"small": "drivers/d7050/assets/images/small.jpg"
-		},
-		"class": "amplifier",
+			"id": "d7050",
+			"name": {
+				"en": "NAD D7050 amplifier",
+				"nl": "NAD D7050 versterker"
+			},
+			"images": {
+				"large": "drivers/d7050/assets/images/large.jpg",
+				"small": "drivers/d7050/assets/images/small.jpg"
+			},
+			"class": "amplifier",
 
-		"capabilities": ["onoff", "volume_mute", "input_selected", "volume_set", "volume_up", "volume_down"],
-		"mobile": {
-			"components": [{
-				"id": "icon",
-				"capabilities": ["onoff"]
-			}, {
-				"id": "picker",
-				"capabilities": ["input_selected"]
-			}, {
+			"capabilities": ["onoff", "volume_mute", "input_selected", "volume_set", "volume_up", "volume_down"],
+			"mobile": {
+				"components": [{
+					"id": "icon",
+					"capabilities": ["onoff"]
+				}, {
+					"id": "picker",
+					"capabilities": ["input_selected"]
+				}, {
 
-				"id": "slider",
-				"capabilities": ["volume_set"],
-				"options": {
-					"showTitle": true
-				}
-			}]
-		},
-		"pair": [{
-				"id": "start"
-			},
-			{
-				"id": "list_devices",
-				"template": "list_devices",
-				"navigation": {
-					"next": "add_devices"
-				}
-			},
-			{
-				"id": "add_devices",
-				"template": "add_devices"
-			}
-		],
-		"settings": [{
-				"type": "group",
-				"label": {
-					"en": "General settings",
-					"nl": "Algemene instellingen"
-				},
-				"children": [{
-					"id": "settingIPAddress",
-					"type": "text",
-					"pattern": "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5]).){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$",
-					"label": {
-						"en": "IP address",
-						"nl": "IP adres"
-					},
-					"value": "0.0.0.0"
-				}]
-			},
-			{
-				"type": "group",
-				"collapsed": "true",
-				"label": {
-					"en": "Optional connection setting",
-					"nl": "Optionele verbindingsinstelling"
-				},
-				"children": [{
-					"id": "stayConnected",
-					"type": "checkbox",
-					"value": false,
-					"label": {
-						"en": "Stay connected (optional):",
-						"nl": "Houd verbinding in stand (optioneel):"
-					},
-					"hint": {
-						"en": "Optionally Homey can be permanently (and exclusively!) connected to the amplifier. Note that this excludes connections from other apps.",
-						"nl": "Homey kan permanent verbonden blijven met de versterker. Er zijn dan geen andere verbindingen mogelijk naar de versterker."
+					"id": "slider",
+					"capabilities": ["volume_set"],
+					"options": {
+						"showTitle": true
 					}
 				}]
-			}
-		]
-	}],
+			},
+			"pair": [{
+					"id": "start"
+				},
+				{
+					"id": "list_devices",
+					"template": "list_devices",
+					"navigation": {
+						"next": "add_devices"
+					}
+				},
+				{
+					"id": "add_devices",
+					"template": "add_devices"
+				}
+			],
+			"settings": [{
+					"type": "group",
+					"label": {
+						"en": "General settings",
+						"nl": "Algemene instellingen"
+					},
+					"children": [{
+						"id": "settingIPAddress",
+						"type": "text",
+						"pattern": "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5]).){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$",
+						"label": {
+							"en": "IP address",
+							"nl": "IP adres"
+						},
+						"value": "0.0.0.0"
+					}]
+				},
+				{
+					"type": "group",
+					"collapsed": "true",
+					"label": {
+						"en": "Optional connection setting",
+						"nl": "Optionele verbindingsinstelling"
+					},
+					"children": [{
+						"id": "stayConnected",
+						"type": "checkbox",
+						"value": false,
+						"label": {
+							"en": "Stay connected (optional):",
+							"nl": "Houd verbinding in stand (optioneel):"
+						},
+						"hint": {
+							"en": "Optionally Homey can be permanently (and exclusively!) connected to the amplifier. Note that this excludes connections from other apps.",
+							"nl": "Homey kan permanent verbonden blijven met de versterker. Er zijn dan geen andere verbindingen mogelijk naar de versterker."
+						}
+					}]
+				}
+			]
+		},
+		{
+			"id": "c338",
+			"name": {
+				"en": "NAD C338 amplifier",
+				"nl": "NAD C338 versterker"
+			},
+			"images": {
+				"large": "drivers/c338/assets/images/large.jpg",
+				"small": "drivers/c338/assets/images/small.jpg"
+			},
+			"class": "amplifier",
+
+			"capabilities": ["onoff", "volume_mute", "input_selected_c338", "volume_set", "volume_up", "volume_down"],
+			"mobile": {
+				"components": [{
+					"id": "icon",
+					"capabilities": ["onoff"]
+				}, {
+					"id": "picker",
+					"capabilities": ["input_selected_c338"]
+				}, {
+
+					"id": "slider",
+					"capabilities": ["volume_set"],
+					"options": {
+						"showTitle": true
+					}
+				}]
+			},
+			"pair": [{
+					"id": "start"
+				},
+				{
+					"id": "list_devices",
+					"template": "list_devices",
+					"navigation": {
+						"next": "add_devices"
+					}
+				},
+				{
+					"id": "add_devices",
+					"template": "add_devices"
+				}
+			],
+			"settings": [{
+					"type": "group",
+					"label": {
+						"en": "General settings",
+						"nl": "Algemene instellingen"
+					},
+					"children": [{
+						"id": "settingIPAddress",
+						"type": "text",
+						"pattern": "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5]).){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$",
+						"label": {
+							"en": "IP address",
+							"nl": "IP adres"
+						},
+						"value": "0.0.0.0"
+					}]
+				},
+				{
+					"type": "group",
+					"collapsed": "true",
+					"label": {
+						"en": "Optional connection setting",
+						"nl": "Optionele verbindingsinstelling"
+					},
+					"children": [{
+						"id": "stayConnected",
+						"type": "checkbox",
+						"value": false,
+						"label": {
+							"en": "Stay connected (optional):",
+							"nl": "Houd verbinding in stand (optioneel):"
+						},
+						"hint": {
+							"en": "Optionally Homey can be permanently (and exclusively!) connected to the amplifier. Note that this excludes connections from other apps.",
+							"nl": "Homey kan permanent verbonden blijven met de versterker. Er zijn dan geen andere verbindingen mogelijk naar de versterker."
+						}
+					}]
+				}
+			]
+		}
+	],
 	"flow": {
 		"conditions": [{
 			"id": "volume_mute",
@@ -187,7 +330,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "onoff",
@@ -198,7 +341,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "input_selected",
@@ -218,7 +361,27 @@
 				"type": "device",
 				"filter": "driver_id=d7050"
 			}]
-		}],
+		},
+	 {
+			"id": "input_selected_c338",
+			"title": {
+				"en": "Audio source !{{is|is not}}",
+				"nl": "Audio bron !{{is|is niet}}"
+			},
+			"args": [{
+				"name": "input",
+				"type": "autocomplete",
+				"placeholder": {
+					"en": "Select source",
+					"nl": "Selecteer audio bron"
+				}
+			}, {
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=c338"
+			}]
+		}
+	],
 		"actions": [{
 			"id": "powerOn",
 			"title": {
@@ -228,7 +391,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "powerOff",
@@ -239,7 +402,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "input_selected",
@@ -259,7 +422,27 @@
 				"type": "device",
 				"filter": "driver_id=d7050"
 			}]
-		}, {
+		},
+		{
+			"id": "input_selected_c338",
+			"title": {
+				"en": "Select source",
+				"nl": "Selecteer audio bron"
+			},
+			"args": [{
+				"name": "input",
+				"type": "autocomplete",
+				"placeholder": {
+					"en": "input",
+					"nl": "input"
+				}
+			}, {
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=c338"
+			}]
+		},
+		{
 			"id": "mute",
 			"title": {
 				"en": "Enable mute",
@@ -268,7 +451,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "unMute",
@@ -279,7 +462,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "toggleMute",
@@ -290,7 +473,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "volume_up",
@@ -301,7 +484,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "volume_down",
@@ -312,7 +495,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "volumeUp",
@@ -323,7 +506,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}, {
 				"name": "volume",
 				"type": "number",
@@ -343,7 +526,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}, {
 				"name": "volume",
 				"type": "number",
@@ -363,7 +546,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}, {
 				"name": "volume",
 				"type": "number",
@@ -383,7 +566,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "autoShutOffOff",
@@ -394,7 +577,7 @@
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"filter": "driver_id=d7050"
+				"filter": "driver_id=d7050|c338"
 			}]
 		}, {
 			"id": "powerSaveOn",
