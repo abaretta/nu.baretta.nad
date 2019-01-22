@@ -1,5 +1,9 @@
 # Changelog
 
+**Version 0.0.8**
+- Alpha version with support for C338. NB: 'fire and forget' at this point, so control, but no status updates. 
+
+*
 **Version 0.0.7**
 - Sorted out internationalization issues 
 

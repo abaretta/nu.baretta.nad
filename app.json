@@ -4,7 +4,7 @@
 	"name": {
 		"en": "NAD Electronics amplifiers"
 	},
-	"version": "0.0.6",
+	"version": "0.0.8",
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",
