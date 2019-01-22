@@ -70,7 +70,7 @@ class C338Device extends Homey.Device {
         this.registerCapabilityListener('volume_up', this.onCapabilityVolumePlus.bind(this));
         this.registerCapabilityListener('volume_down', this.onCapabilityVolumeMin.bind(this));
         // Would be nice to be able to have the mute function in the mobile interface as well
-        //this.registerCapabilityListener('volume_mute', this.onCapabilityVolumeMute.bind(this));
+        this.registerCapabilityListener('volume_mute', this.onCapabilityVolumeMute.bind(this));
 
         // flow conditions
         this._conditionOnoff = new Homey.FlowCardCondition('onoff').register()
@@ -337,13 +337,13 @@ class C338Device extends Homey.Device {
 
     onActionVolumePlus(device) {
         this.log("Action called: setVolumePlus");
-        var command = 'Main.Volume=+';
+        var command = 'Main.Volume+';
         device.sendCommand(command, 0);
     }
 
     onActionVolumeMin(device) {
         this.log("Action called: setVolumePlus");
-        var command = 'Main.Volume=-';
+        var command = 'Main.Volume-';
         device.sendCommand(command, 0);
     }
 
@@ -449,7 +449,7 @@ class C338Device extends Homey.Device {
     }
 
     setVolume(device, targetVolume) {
-        // volume ranges from -80 to 0 on the C338. 
+        // volume ranges from -80 to 12 on the C338. 
         // volHomey=0.0125 * volNad + 1
         // volNad=(volHomey-1)/0.0125
         // var Volume_hex = (200 * parseFloat(targetVolume).toFixed(2)).toString(16);
@@ -458,8 +458,8 @@ class C338Device extends Homey.Device {
         if (VolumeNad < -80) {
             VolumeNad = -80
         }
-        if (VolumeNad > 0) {
-            VolumeNad = 0
+        if (VolumeNad > 12) {
+            VolumeNad = 12 
         }
         this.log("setVolume targetVolume: " + targetVolume);
         this.log("VolumeNad: " + parseFloat(VolumeNad).toFixed(0));
