@@ -167,19 +167,76 @@ class C338Device extends Homey.Device {
                 return Promise.resolve(true);
             });
 
-        let volumeUpAction = new Homey.FlowCardAction('volume_up');
-        volumeUpAction
+
+        let bassOnAction = new Homey.FlowCardAction('bassOn');
+        bassOnAction
             .register().registerRunListener((args) => {
-                this.log("Flow card action volumeUp ");
-                this.onActionVolumeUp(this, args.volume);
+                this.log("Flow card action bass on ");
+                this.bassOn(this);
                 return Promise.resolve(true);
             });
 
-        let volumeDownAction = new Homey.FlowCardAction('volume_down');
-        volumeDownAction
+        let bassOffAction = new Homey.FlowCardAction('bassOff');
+        bassOffAction
             .register().registerRunListener((args) => {
-                this.log(" setVolume volume Down ");
-                this.onActionVolumeDown(this, args.volume);
+                this.log("Flow card action bass off ");
+                this.bassOff(this);
+                return Promise.resolve(true);
+            });
+
+        let standbyOnAction = new Homey.FlowCardAction('standbyOn');
+        standbyOnAction
+            .register().registerRunListener((args) => {
+                this.log("Flow card action standby on ");
+                this.standbyOn(this);
+                return Promise.resolve(true);
+            });
+
+        let standbyOffAction = new Homey.FlowCardAction('standbyOff');
+        standbyOffAction
+            .register().registerRunListener((args) => {
+                this.log("Flow card action standby off ");
+                this.standbyOff(this);
+                return Promise.resolve(true);
+            });
+
+        let autoStandbyOnAction = new Homey.FlowCardAction('autoStandbyOn');
+        autoStandbyOnAction
+            .register().registerRunListener((args) => {
+                this.log("Flow card action auto-standby on ");
+                this.autoStandbyOn(this);
+                return Promise.resolve(true);
+            });
+
+        let autoStandbyOffAction = new Homey.FlowCardAction('autoStandbyOff');
+        autoStandbyOffAction
+            .register().registerRunListener((args) => {
+                this.log("Flow card action auto-standby off ");
+                this.autoStandbyOff(this);
+                return Promise.resolve(true);
+            });
+
+        let autoSenseOnAction = new Homey.FlowCardAction('autoSenseOn');
+        autoSenseOnAction
+            .register().registerRunListener((args) => {
+                this.log("Flow card action auto-sense on ");
+                this.autoSenseOn(this);
+                return Promise.resolve(true);
+            });
+
+        let autoSenseOffAction = new Homey.FlowCardAction('autoSenseOff');
+        autoSenseOffAction
+            .register().registerRunListener((args) => {
+                this.log("Flow card action auto-sense off ");
+                this.autoSenseOff(this);
+                return Promise.resolve(true);
+            });
+
+        let setBrightnessAction = new Homey.FlowCardAction('setBrightness');
+        setBrightnessAction
+            .register().registerRunListener((args) => {
+                this.log("Flow card action brightness: " + args.brightness);
+                this.setBrightness(this, args.brightness);
                 return Promise.resolve(true);
             });
 
@@ -240,7 +297,7 @@ class C338Device extends Homey.Device {
         if (value) {
             this.mute(this);
         } else {
-            this.muteOff(this);
+            this.unMute(this);
         }
         callback(null);
     }
@@ -392,26 +449,48 @@ class C338Device extends Homey.Device {
             .catch(this.error);
     }
 
-    autoShutOffOn(device) {
+    autoStandbyOn(device) {
         var command = 'Main.AutoStandby=On';
         device.sendCommand(command, 0);
     }
 
-    // NB: there is a bug in the C338 that prevents auto-shutoff when spotify was used in some cases
-    // in the meantime the Spotify connect feature has been disabled... Need to re-test
-    autoShutOffOff(device) {
+    autoStandbyOff(device) {
         var command = 'Main.AutoStandby=Off';
         device.sendCommand(command, 0);
     }
 
-    // NB: power save enables 'ECO standby'. While in this mode, the amp can only be turned on by using the physical button or IR.
-    powerSaveOn(device) {
-        var command = 'Main.Control';
+    standbyOn(device) {
+        var command = 'Main.ControlStandby=On';
         device.sendCommand(command, 0);
     }
 
-    powerSaveOff(device) {
-        var command = 'Main.ControlStandby';
+    standbyOff(device) {
+        var command = 'Main.ControlStandby=Off';
+        device.sendCommand(command, 0);
+    }
+
+    autoSenseOn(device) {
+        var command = 'Main.AutoSense=On';
+        device.sendCommand(command, 0);
+    }
+
+    autoSenseOff(device) {
+        var command = 'Main.AutoSense=Off';
+        device.sendCommand(command, 0);
+    }
+
+    bassOn(device) {
+        var command = 'Main.Bass=On';
+        device.sendCommand(command, 0);
+    }
+
+    bassOff(device) {
+        var command = 'Main.Bass=Off';
+        device.sendCommand(command, 0);
+    }
+
+    setBrightness(device, value) {
+        var command = 'Main.Brightness=' + value;
         device.sendCommand(command, 0);
     }
 
@@ -449,44 +528,47 @@ class C338Device extends Homey.Device {
     }
 
     setVolume(device, targetVolume) {
-        // volume ranges from -80 to 12 on the C338. 
+        // output from get volume ranges from -80 to 12 on the C338
+        // setVolume ranges from 0 - 200 (integers)
         // volHomey=0.0125 * volNad + 1
         // volNad=(volHomey-1)/0.0125
         // var Volume_hex = (200 * parseFloat(targetVolume).toFixed(2)).toString(16);
         //var Volume_Homey = 0.0125 * device + 1; 
-        var VolumeNad = (targetVolume - 1) / 0.0125;
+        /* var VolumeNad = (targetVolume - 1) / 0.0125;
         if (VolumeNad < -80) {
             VolumeNad = -80
         }
         if (VolumeNad > 12) {
             VolumeNad = 12 
-        }
+        } */
         this.log("setVolume targetVolume: " + targetVolume);
-        this.log("VolumeNad: " + parseFloat(VolumeNad).toFixed(0));
-        var command = 'Main.Volume=' + parseFloat(VolumeNad).toFixed(0);
+        this.log("VolumeNad: " + parseFloat(200 * targetVolume).toFixed(0));
+        var command = 'Main.Volume=' + parseFloat(200 * targetVolume).toFixed(0);
         this.log("setVolume: " + targetVolume + " command: " + command);
         device.sendCommand(command, 0);
         device.setCapabilityValue('volume_set', targetVolume)
             .catch(this.error);
     }
 
-    volumeUp(device, step) {
-        var currentVolume = this.getCapabilityValue('volume_set');
-        this.log("currentVolume: " + currentVolume);
-        var targetVolume = currentVolume + (step / 100);
-        targetVolume = targetVolume.toFixed(2);
-        this.log("volumeUp targetVolume: " + targetVolume);
-        device.setVolume(device, targetVolume);
-    }
+    /* use internal '+' and '-' control
+        volumeUp(device, step) {
+            var currentVolume = this.getCapabilityValue('volume_set');
+            this.log("currentVolume: " + currentVolume);
+            var targetVolume = currentVolume + (step / 100);
+            targetVolume = targetVolume.toFixed(2);
+            this.log("volumeUp targetVolume: " + targetVolume);
+            device.setVolume(device, targetVolume);
+        }
 
-    volumeDown(device, step) {
-        var currentVolume = this.getCapabilityValue('volume_set');
-        device.log("currentVolume: " + currentVolume);
-        var targetVolume = currentVolume - (step / 100);
-        targetVolume = targetVolume.toFixed(2);
-        device.log("volumeDown targetVolume: " + targetVolume);
-        device.setVolume(device, targetVolume);
-    }
+        volumeDown(device, step) {
+            var currentVolume = this.getCapabilityValue('volume_set');
+            device.log("currentVolume: " + currentVolume);
+            var targetVolume = currentVolume - (step / 100);
+            targetVolume = targetVolume.toFixed(2);
+            device.log("volumeDown targetVolume: " + targetVolume);
+            device.setVolume(device, targetVolume);
+        }
+        */
 
     async readStream(readableStream, bytes) {
         const reader = promiseStream();

@@ -8,7 +8,7 @@
                 "en": ["audio", "amplifier","hifi"],
                 "nl": ["audio", "versterker", "hifi"]
         },
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",
@@ -49,25 +49,25 @@
 			"values": [{
 					"id": "0",
 					"title": {
-						"en": "Coaxial1"
+						"en": "Coaxial 1"
 					}
 				},
 				{
 					"id": "1",
 					"title": {
-						"en": "Coaxial2"
+						"en": "Coaxial 2"
 					}
 				},
 				{
 					"id": "2",
 					"title": {
-						"en": "Optical1"
+						"en": "Optical 1"
 					}
 				},
 				{
 					"id": "3",
 					"title": {
-						"en": "Optical2"
+						"en": "Optical 2"
 					}
 				},
 				{
@@ -79,19 +79,19 @@
 				{
 					"id": "5",
 					"title": {
-						"en": "Airplay"
+						"en": "Stream"
 					}
 				},
 				{
 					"id": "6",
 					"title": {
-						"en": "USB Dock"
+						"en": "Dock"
 					}
 				},
 				{
 					"id": "7",
 					"title": {
-						"en": "BT"
+						"en": "Bluetooth"
 					}
 				}
 			]
@@ -326,285 +326,418 @@
 	],
 	"flow": {
 		"conditions": [{
-			"id": "volume_mute",
-			"title": {
-				"en": "D7050 !{{is|is not}} muted",
-				"nl": "D7050 mute functie !{{is|is niet}} geactiveerd"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "onoff",
-			"title": {
-				"en": "D7050 !{{is|is not}} on",
-				"nl": "D7050 !{{staat|staat niet}} aan"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "input_selected",
-			"title": {
-				"en": "Audio source !{{is|is not}}",
-				"nl": "Audio bron !{{is|is niet}}"
-			},
-			"args": [{
-				"name": "input",
-				"type": "autocomplete",
-				"placeholder": {
-					"en": "Select source",
-					"nl": "Selecteer audio bron"
-				}
+				"id": "volume_mute",
+				"title": {
+					"en": "Amplifier !{{is|is not}} muted",
+					"nl": "Versterker mute functie !{{is|is niet}} geactiveerd"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
 			}, {
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050"
-			}]
-		},
-	 {
-			"id": "input_selected_c338",
-			"title": {
-				"en": "Audio source !{{is|is not}}",
-				"nl": "Audio bron !{{is|is niet}}"
-			},
-			"args": [{
-				"name": "input",
-				"type": "autocomplete",
-				"placeholder": {
-					"en": "Select source",
-					"nl": "Selecteer audio bron"
-				}
+				"id": "onoff",
+				"title": {
+					"en": "Amplifier !{{is|is not}} on",
+					"nl": "Versterker !{{staat|staat niet}} aan"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
 			}, {
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=c338"
-			}]
-		}
-	],
+				"id": "input_selected",
+				"title": {
+					"en": "Audio source !{{is|is not}}",
+					"nl": "Audio bron !{{is|is niet}}"
+				},
+				"args": [{
+					"name": "input",
+					"type": "autocomplete",
+					"placeholder": {
+						"en": "Select source",
+						"nl": "Selecteer audio bron"
+					}
+				}, {
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}]
+			},
+			{
+				"id": "input_selected_c338",
+				"title": {
+					"en": "Audio source !{{is|is not}}",
+					"nl": "Audio bron !{{is|is niet}}"
+				},
+				"args": [{
+					"name": "input",
+					"type": "autocomplete",
+					"placeholder": {
+						"en": "Select source",
+						"nl": "Selecteer audio bron"
+					}
+				}, {
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}]
+			}
+		],
 		"actions": [{
-			"id": "powerOn",
-			"title": {
-				"en": "Turn power on",
-				"nl": "Zet versterker aan"
+				"id": "powerOn",
+				"title": {
+					"en": "Turn power on",
+					"nl": "Zet versterker aan"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
+			}, {
+				"id": "powerOff",
+				"title": {
+					"en": "Power off/standby",
+					"nl": "Uitschakelen/standby"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
+			}, {
+				"id": "input_selected",
+				"title": {
+					"en": "Select source",
+					"nl": "Selecteer audio bron"
+				},
+				"args": [{
+					"name": "input",
+					"type": "autocomplete",
+					"placeholder": {
+						"en": "input",
+						"nl": "input"
+					}
+				}, {
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}]
 			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "powerOff",
-			"title": {
-				"en": "Power off/standby",
-				"nl": "Uitschakelen/standby"
+			{
+				"id": "input_selected_c338",
+				"title": {
+					"en": "Select source",
+					"nl": "Selecteer audio bron"
+				},
+				"args": [{
+					"name": "input",
+					"type": "autocomplete",
+					"placeholder": {
+						"en": "input",
+						"nl": "input"
+					}
+				}, {
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}]
 			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "input_selected",
-			"title": {
-				"en": "Select source",
-				"nl": "Selecteer audio bron"
+			{
+				"id": "mute",
+				"title": {
+					"en": "Enable mute",
+					"nl": "Zet mute aan"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
+			}, {
+				"id": "unMute",
+				"title": {
+					"en": "Turn mute off",
+					"nl": "Zet mute uit"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
 			},
-			"args": [{
-				"name": "input",
-				"type": "autocomplete",
-				"placeholder": {
-					"en": "input",
-					"nl": "input"
+			{
+				"id": "bassOn",
+				"title": {
+					"en": "Enable bassfunction",
+					"nl": "Zet bassfunctie aan"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}]
+			}, {
+				"id": "bassOff",
+				"title": {
+					"en": "Turn off bassfunction",
+					"nl": "Zet bassfunctie uit"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}]
+			},
+			{
+				"id": "standbyOn",
+				"title": {
+					"en": "Enable standby",
+					"nl": "Zet versterker op standby"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}]
+			}, {
+				"id": "standbyOff",
+				"title": {
+					"en": "Disable standby",
+					"nl": "Zet standby uit"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}]
+			},
+			{
+				"id": "autoStandbyOn",
+				"title": {
+					"en": "Enable auto-standby",
+					"nl": "Zet auto-standby functie aan"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}],
+				"hint": {
+					"en": "With auto-standby enabled the amplifier will automaticall go to standby after 20 minutes.",
+					"nl": "Met de auto-standby functie aan gaat de versterker vanzelf op standby na 20 minuten."
 				}
 			}, {
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050"
-			}]
-		},
-		{
-			"id": "input_selected_c338",
-			"title": {
-				"en": "Select source",
-				"nl": "Selecteer audio bron"
+				"id": "autoStandbyOff",
+				"title": {
+					"en": "Disable auto-standby",
+					"nl": "Zet auto-standby functie uit"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}],
+				"hint": {
+					"en": "With auto-standby enabled the amplifier will automaticall go to standby after 20 minutes.",
+					"nl": "Met de auto-standby functie aan gaat de versterker vanzelf op standby na 20 minuten."
+				}
 			},
-			"args": [{
-				"name": "input",
-				"type": "autocomplete",
-				"placeholder": {
-					"en": "input",
-					"nl": "input"
+
+			{
+				"id": "autoSenseOn",
+				"title": {
+					"en": "Enable auto-sense",
+					"nl": "Zet auto-sense aan"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}],
+				"hint": {
+					"en": "With auto-sense enabled the amplifier will switch on when Chromecast, Spotify or Tidal is used.",
+					"nl": "Met de auto-sense functie aan gaat de versterker vanzelf aan zodra er gestreamed wordt vanuit Chromecast, Spotify of Tidal."
 				}
 			}, {
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=c338"
-			}]
-		},
-		{
-			"id": "mute",
-			"title": {
-				"en": "Enable mute",
-				"nl": "Zet mute aan"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "unMute",
-			"title": {
-				"en": "Turn mute off",
-				"nl": "Zet mute uit"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "toggleMute",
-			"title": {
-				"en": "Toggle mute",
-				"nl": "Toggle mute"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "volume_up",
-			"title": {
-				"en": "Increase the volume",
-				"nl": "Verhoog het volume"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "volume_down",
-			"title": {
-				"en": "Decrease the volume",
-				"nl": "Verlaag het volume"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "volumeUp",
-			"title": {
-				"en": "Increase the volume",
-				"nl": "Verhoog het volume"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}, {
-				"name": "volume",
-				"type": "number",
-				"min": 1,
-				"max": 50,
-				"placeholder": {
-					"en": "Volume increase (%)",
-					"nl": "Volume toename (%)"
+				"id": "autoSenseOff",
+				"title": {
+					"en": "Disable auto-sense",
+					"nl": "Zet auto-sense functie uit"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}],
+				"hint": {
+					"en": "With auto-sense enabled the amplifier will switch on when Chromecast, Spotify or Tidal is used.",
+					"nl": "Met de auto-sense functie aan gaat de versterker vanzelf aan zodra er gestreamed wordt vanuit Chromecast, Spotify of Tidal."
 				}
-			}]
-		}, {
-			"id": "volumeDown",
-			"title": {
-				"en": "Lower the volume",
-				"nl": "Verlaag het volume"
 			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
+			{
+				"id": "setBrightness",
+				"title": {
+					"en": "Set the brightness of the display",
+					"nl": "stel de helderheid van het display in"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=c338"
+				}, {
+					"name": "brightness",
+					"type": "number",
+					"min": 0,
+					"max": 3,
+					"step": 1,
+					"placeholder": {
+						"en": "Brightness 0 - 3",
+						"nl": "Helderheid 0 - 3"
+					}
+				}]
+			},
+			{
+				"id": "toggleMute",
+				"title": {
+					"en": "Toggle mute",
+					"nl": "Toggle mute"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
 			}, {
-				"name": "volume",
-				"type": "number",
-				"min": 1,
-				"max": 50,
-				"placeholder": {
-					"en": "Volume decrease (%)",
-					"nl": "Volume afname (%)"
-				}
-			}]
-		}, {
-			"id": "setVolume",
-			"title": {
-				"en": "Change volume",
-				"nl": "Verander volume"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
+				"id": "volume_up",
+				"title": {
+					"en": "Increase the volume",
+					"nl": "Verhoog het volume"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
 			}, {
-				"name": "volume",
-				"type": "number",
-				"min": 0,
-				"max": 99,
-				"placeholder": {
-					"en": "Target volume",
-					"nl": "Gewenst volume"
-				}
-			}]
-		}, {
-			"id": "autoShutOffOn",
-			"title": {
-				"en": "Enable auto shut off",
-				"nl": "Activeer auto shut off"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "autoShutOffOff",
-			"title": {
-				"en": "Disable auto shut off",
-				"nl": "Deactiveer auto shut off"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050|c338"
-			}]
-		}, {
-			"id": "powerSaveOn",
-			"title": {
-				"en": "Enable power save mode",
-				"nl": "Activeer de spaarstand"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050"
-			}]
-		}, {
-			"id": "powerSaveOff",
-			"title": {
-				"en": "Disable power save mode",
-				"nl": "Deactiveer de spaarstand"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"filter": "driver_id=d7050"
-			}]
-		}]
+				"id": "volume_down",
+				"title": {
+					"en": "Decrease the volume",
+					"nl": "Verlaag het volume"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050|c338"
+				}]
+			}, {
+				"id": "volumeUp",
+				"title": {
+					"en": "Increase the volume",
+					"nl": "Verhoog het volume"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}, {
+					"name": "volume",
+					"type": "number",
+					"min": 1,
+					"max": 50,
+					"placeholder": {
+						"en": "Volume increase (%)",
+						"nl": "Volume toename (%)"
+					}
+				}]
+			}, {
+				"id": "volumeDown",
+				"title": {
+					"en": "Lower the volume",
+					"nl": "Verlaag het volume"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}, {
+					"name": "volume",
+					"type": "number",
+					"min": 1,
+					"max": 50,
+					"placeholder": {
+						"en": "Volume decrease (%)",
+						"nl": "Volume afname (%)"
+					}
+				}]
+			}, {
+				"id": "setVolume",
+				"title": {
+					"en": "Change volume",
+					"nl": "Verander volume"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}, {
+					"name": "volume",
+					"type": "number",
+					"min": 0,
+					"max": 99,
+					"placeholder": {
+						"en": "Target volume",
+						"nl": "Gewenst volume"
+					}
+				}]
+			}, {
+				"id": "autoShutOffOn",
+				"title": {
+					"en": "Enable auto shut off",
+					"nl": "Activeer auto shut off"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}]
+			}, {
+				"id": "autoShutOffOff",
+				"title": {
+					"en": "Disable auto shut off",
+					"nl": "Deactiveer auto shut off"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}]
+			}, {
+				"id": "powerSaveOn",
+				"title": {
+					"en": "Enable power save mode",
+					"nl": "Activeer de spaarstand"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}]
+			}, {
+				"id": "powerSaveOff",
+				"title": {
+					"en": "Disable power save mode",
+					"nl": "Deactiveer de spaarstand"
+				},
+				"args": [{
+					"name": "device",
+					"type": "device",
+					"filter": "driver_id=d7050"
+				}]
+			}
+		]
 	}
 }
