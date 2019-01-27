@@ -606,7 +606,7 @@ class C338Device extends Homey.Device {
             if (poll == 1) {
                 // min bytes Main? output: 203, max. 217
                 await this.readStream(client, 203).then((value) => {
-                        devices[id].receivedData = value.toString();
+                        devices[id].receivedData = this.myTrim(value.toString());
                         responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split("\n");
                     })
                     .catch(err => {
@@ -736,6 +736,11 @@ class C338Device extends Homey.Device {
         }
         return tempItems;
     }
+
+    myTrim(x) {
+        return x.replace(/^\s+|\s+$/gm, '');
+    }
+
 
 }
 module.exports = C338Device;
