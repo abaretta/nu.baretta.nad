@@ -1,6 +1,6 @@
 # Changelog
 
-**Version 0.0.12**
+**Version 0.0.13**
 - Polling added to update the state of the amplifier in the mobile interface.
 
 **Version 0.0.8**
