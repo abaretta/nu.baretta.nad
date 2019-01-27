@@ -1,14 +1,14 @@
-# NAD Electronics amplifiers app for Athom Homey
+# NAD Electronics app for Athom Homey
 
-This app lets you control NAD D7050 amplifiers from within flows or the mobile interface via a Homey home automation controller. A driver for NAD C338 (and possibly 368 and C388) amplifiers with a BluOS Module fitted is in development. 
+This app lets you control NAD D7050 and C338 amplifiers from within flows or the mobile interface via a Homey home automation controller. 
 
 In its current state, the app requires that you enter the amplifier's IP address so it is advised to set it up to have a fixed IP address or a 'static lease' from the DHCP server.
 
 In this SDK2 version an option is added to let the Homey app 'stay connected' to the amplifier. This means that Homey doesn't need to set up a new connection each time. However, it also means that the use of the Homey app cannot be combined with the NAD Electronics network (iPhone) app. 
 
-Also note that the app has not yet been tested on Homey V2, however it does not use any (known ;-) unsupported features.
+The C338 drivers has been confirmed to work on Homey V2, the D7050 is as of yet untested on V2. 
 
-# Support for 
+# Features 
 
 ![](https://drive.google.com/uc?id=0B4QdLfQ7j41JUHRfTmRHT3JGT0k)
 
@@ -51,6 +51,9 @@ The 'auto shutoff' feature activates the chosen power saving mode after idling f
 
 ===============================================================================
 # Changelog
+
+**Version 0.0.7 - 12:**
+- Support for C338 added
 
 **Version 0.0.6:**
 - SDK2 rewrite

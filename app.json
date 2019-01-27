@@ -2,12 +2,12 @@
 	"id": "nu.baretta.nad",
 	"sdk": 2,
 	"name": {
-		"en": "NAD Electronics amplifiers"
+		"en": "NAD Electronics"
 	},
-        "tags": {
-                "en": ["audio", "amplifier","hifi"],
-                "nl": ["audio", "versterker", "hifi"]
-        },
+	"tags": {
+		"en": ["audio", "amplifier", "hifi"],
+		"nl": ["audio", "versterker", "hifi"]
+	},
 	"version": "0.0.12",
 	"compatibility": ">=1.5.0",
 	"author": {
@@ -26,7 +26,7 @@
 	},
 	"category": "appliances",
 	"description": {
-		"en": "NAD D7050 and C338 IP control app for Homey",
+		"en": "NAD D7050 and C338 app for Homey",
 		"nl": "NAD D7050 en C338 app voor Homey"
 	},
 	"contributing": {
