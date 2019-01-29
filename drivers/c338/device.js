@@ -606,9 +606,15 @@ class C338Device extends Homey.Device {
             if (poll == 1) {
                 // min bytes Main? output: 203, max. 217
                 await this.readStream(client, 203).then((value) => {
+                    this.log("length of readStream output: " + value.length);
                         var trimmedData = this.myTrim(value.toString()); 
+                       // this.log("trimmedData: " + trimmedData);
+                        //this.log(trimmedData);
                         devices[id].receivedData = utf8.decode(trimmedData);
-                        responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split("\r");
+                        this.log("UTF8 decoded: ");
+                        this.log(devices[id].receivedData);
+                        responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split("\n");
+                        this.log("responseline: " + responseLine);
                     })
                     .catch(err => {
                         this.log(err)
@@ -630,15 +636,20 @@ class C338Device extends Homey.Device {
 
     readData(receivedData) {
         try {
-            if ((typeof (receivedData) == 'string') && (receivedData.length >= 200)) {
+            if ((typeof (receivedData) == 'string') && (receivedData.length >= 203)) {
                 this.log("NAD C338 app - receivedData: " + receivedData);
                 reachable = 0;
                 this.setAvailable();
 
-                responseLine.forEach(function (value) {
+                //responseLine.forEach(function (value) {
+                responseLine.forEach((value) => {
                     var array = value.split(":");
                     parameter[array[0]] = [array[1]];
+                    this.log("parameter: " + [array[0]] + " " + parameter[array[0]]);
                 });
+
+                this.log("Main.Power: " + parameter["Main.Power"]);
+                this.log("Main.Source: " + parameter["Main.Source"]);
 
                 var onoffstring = parameter["Main.Power"];
 
