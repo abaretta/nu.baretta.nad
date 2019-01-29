@@ -606,7 +606,8 @@ class C338Device extends Homey.Device {
             if (poll == 1) {
                 // min bytes Main? output: 203, max. 217
                 await this.readStream(client, 203).then((value) => {
-                        devices[id].receivedData = this.myTrim(value.toString());
+                        var trimmedData = this.myTrim(value.toString()); 
+                        devices[id].receivedData = utf8.decode(trimmedData);
                         responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split("\n");
                     })
                     .catch(err => {
@@ -630,7 +631,7 @@ class C338Device extends Homey.Device {
     readData(receivedData) {
         try {
             if ((typeof (receivedData) == 'string') && (receivedData.length >= 200)) {
-                //this.log("NAD C338 app - receivedData: " + receivedData);
+                this.log("NAD C338 app - receivedData: " + receivedData);
                 reachable = 0;
                 this.setAvailable();
 

@@ -1,5 +1,8 @@
 # Changelog
 
+**Version 0.0.14**
+- Added utf8 decoding for polled data.
+
 **Version 0.0.13**
 - Polling added to update the state of the amplifier in the mobile interface.
 

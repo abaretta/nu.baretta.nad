@@ -8,7 +8,7 @@
 		"en": ["audio", "amplifier", "hifi"],
 		"nl": ["audio", "versterker", "hifi"]
 	},
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",
