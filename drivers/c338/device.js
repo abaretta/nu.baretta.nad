@@ -606,14 +606,14 @@ class C338Device extends Homey.Device {
             if (poll == 1) {
                 // min bytes Main? output: 203, max. 217
                 await this.readStream(client, 203).then((value) => {
-                    this.log("length of readStream output: " + value.length);
-                        var trimmedData = this.myTrim(value.toString()); 
-                       // this.log("trimmedData: " + trimmedData);
+                        this.log("length of readStream output: " + value.length);
+                        var trimmedData = this.myTrim(value.toString());
+                        // this.log("trimmedData: " + trimmedData);
                         //this.log(trimmedData);
                         devices[id].receivedData = utf8.decode(trimmedData);
                         this.log("UTF8 decoded: ");
                         this.log(devices[id].receivedData);
-                        responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split("\n");
+                        responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split(/\r?\n/);
                         this.log("responseline: " + responseLine);
                     })
                     .catch(err => {
