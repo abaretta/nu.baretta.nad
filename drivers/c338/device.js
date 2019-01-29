@@ -375,9 +375,6 @@ class C338Device extends Homey.Device {
 
     onActionSetVolume(device, volume) {
         this.log("Action called: setVolume: " + volume);
-        // NadVol = 92 x (HomeyVol - 80)
-        //var volume_percent = ((volume + 1) / 100).toFixed(2);
-        //this.log("volume_percent: " + volume_percent);
         device.setVolume(device, volume);
     }
 
@@ -519,8 +516,10 @@ class C338Device extends Homey.Device {
     setVolume(device, targetVolume) {
         // output from get volume ranges from -80 to 12 on the C338, in 0.5 steps
         // Homey volume: 0 - 1 (percentage)
-        // volumeNad = (volumeNad+80)/92
-        var volumeNad = -80 + (parseFloat(targetVolume * 184).toFixed(0) * 0.5);
+        // volumeHomey = (volumeNad+80)/92
+        // var volumeNad = -80 + (parseFloat(targetVolume * 184).toFixed(0) * 0.5);
+        var volumeNad = this.roundHalf(92 * targetVolume - 80);
+        // var volumeNad = -80 + (parseFloat(targetVolume * 184).toFixed(0) * 0.5);
         this.log("setVolume targetVolume: " + targetVolume);
         this.log("VolumeNad: " + volumeNad);
         var command = 'Main.Volume=' + volumeNad;
@@ -675,9 +674,9 @@ class C338Device extends Homey.Device {
 
                 // HomeyVolPercent = (volNad + 80) / 92;
                 // NadVol = 92 x (HomeyVol - 80)
-                var volNad = parseInt(parameter["Main.Volume"]);
+                var volNad = parseFloat(parameter["Main.Volume"]).toFixed(1);
                 //var volume_percent = parseFloat((volNad + 80) / 92).toFixed(2);
-                var volume_percent = parseFloat((volNad + 80) / 92).toFixed(2);
+                var volume_percent = parseFloat((parseFloat(volNad) + 80) / 92).toFixed(2);
                 this.log("VolNad: " + volNad);
                 this.log("Volume percent: " + volume_percent);
 
@@ -752,10 +751,9 @@ class C338Device extends Homey.Device {
         return tempItems;
     }
 
-    myTrim(x) {
-        return x.replace(/^\s+|\s+$/gm, '');
+    roundHalf(num) {
+        return Math.round(num * 2) / 2;
     }
-
 
 }
 module.exports = C338Device;
