@@ -612,7 +612,7 @@ class C338Device extends Homey.Device {
                         //this.log("trimmedData: " + trimmedData);
                         //this.log(trimmedData);
                         //devices[id].receivedData = utf8.decode(trimmedData);
-                        devices[id].receivedData = utf8.decode(value);
+                        devices[id].receivedData = utf8.decode(value.toString());
                         this.log("UTF8 decoded: ");
                         this.log(devices[id].receivedData);
                         this.log("Split on /\r\n|\n|\r/: ")
