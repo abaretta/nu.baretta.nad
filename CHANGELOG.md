@@ -1,5 +1,8 @@
 # Changelog
 
+**Version 0.0.15**
+- Changed split character to /r.
+
 **Version 0.0.14**
 - Added utf8 decoding for polled data.
 

@@ -608,7 +608,7 @@ class C338Device extends Homey.Device {
                 await this.readStream(client, 203).then((value) => {
                         var trimmedData = this.myTrim(value.toString()); 
                         devices[id].receivedData = utf8.decode(trimmedData);
-                        responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split("\n");
+                        responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split("\r");
                     })
                     .catch(err => {
                         this.log(err)
