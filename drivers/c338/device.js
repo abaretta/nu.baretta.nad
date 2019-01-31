@@ -25,7 +25,7 @@ var parameter = {
     "Main.Power": "",
     "Main.Source": "",
     "Main.Version": 1.65,
-    "Main.Volume": -20,
+    "Main.Volume": undefined,
     "Main.AnalogGain": 0
 }
 
@@ -616,7 +616,7 @@ class C338Device extends Homey.Device {
                         this.log(devices[id].receivedData);
                         this.log("Split on /\r\n|\n|\r/: ")
                         responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split(/\r\n|\n|\r/);
-                        this.log("responseline: " + responseLine);
+                        //this.log("responseline: " + responseLine);
                     })
                     .catch(err => {
                         this.log(err)
@@ -639,11 +639,10 @@ class C338Device extends Homey.Device {
     readData(receivedData) {
         try {
             if ((typeof (receivedData) == 'string') && (receivedData.length >= 203)) {
-                this.log("NAD C338 app - receivedData: " + receivedData);
+                // this.log("ReceivedData: " + receivedData);
                 reachable = 0;
                 this.setAvailable();
 
-                //responseLine.forEach(function (value) {
                 responseLine.forEach((value) => {
                     var array = value.split(":");
                     parameter[array[0]] = [array[1]];
@@ -652,6 +651,8 @@ class C338Device extends Homey.Device {
 
                 this.log("Main.Power: " + parameter["Main.Power"]);
                 this.log("Main.Source: " + parameter["Main.Source"]);
+                this.log("Main.Volume: " + parameter["Main.Volume"]);
+                this.log("Main.Mute: " + parameter["Main.Mute"]);
 
                 var onoffstring = parameter["Main.Power"];
 
