@@ -25,7 +25,7 @@ var parameter = {
     "Main.Power": "",
     "Main.Source": "",
     "Main.Version": 1.65,
-    "Main.Volume": undefined,
+    "Main.Volume": "",
     "Main.AnalogGain": 0
 }
 
@@ -612,9 +612,8 @@ class C338Device extends Homey.Device {
                         //this.log(trimmedData);
                         //devices[id].receivedData = utf8.decode(trimmedData);
                         devices[id].receivedData = utf8.decode(value.toString());
-                        this.log("UTF8 decoded: ");
-                        this.log(devices[id].receivedData);
-                        this.log("Split on /\r\n|\n|\r/: ")
+                       // this.log("UTF8 decoded: ");
+                       // this.log(devices[id].receivedData);
                         responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split(/\r\n|\n|\r/);
                         //this.log("responseline: " + responseLine);
                     })
