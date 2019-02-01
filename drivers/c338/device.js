@@ -179,7 +179,7 @@ class C338Device extends Homey.Device {
         let volumeDownActionOrig = new Homey.FlowCardAction('volumeDown');
         volumeDownActionOrig
             .register().registerRunListener((args) => {
-                this.log(" setVolume volume Down (default) ");
+                this.log("Flow card action setVolume volume Down (default) ");
                 this.onActionVolumeMin(this);
                 return Promise.resolve(true);
             });
@@ -519,35 +519,14 @@ class C338Device extends Homey.Device {
         // volumeHomey = (volumeNad+80)/92
         // var volumeNad = -80 + (parseFloat(targetVolume * 184).toFixed(0) * 0.5);
         var volumeNad = this.roundHalf(92 * targetVolume - 80);
-        // var volumeNad = -80 + (parseFloat(targetVolume * 184).toFixed(0) * 0.5);
         this.log("setVolume targetVolume: " + targetVolume);
-        this.log("VolumeNad: " + volumeNad);
+        this.log("setVolume volumeNad: " + volumeNad);
         var command = 'Main.Volume=' + volumeNad;
         this.log("setVolume: " + targetVolume + " command: " + command);
         device.sendCommand(command, 0);
-        device.setCapabilityValue('volume_set', targetVolume)
+        device.setCapabilityValue('volume_set', parseFloat(targetVolume))
             .catch(this.error);
     }
-
-    /* use internal '+' and '-' control
-        volumeUp(device, step) {
-            var currentVolume = this.getCapabilityValue('volume_set');
-            this.log("currentVolume: " + currentVolume);
-            var targetVolume = currentVolume + (step / 100);
-            targetVolume = targetVolume.toFixed(2);
-            this.log("volumeUp targetVolume: " + targetVolume);
-            device.setVolume(device, targetVolume);
-        }
-
-        volumeDown(device, step) {
-            var currentVolume = this.getCapabilityValue('volume_set');
-            device.log("currentVolume: " + currentVolume);
-            var targetVolume = currentVolume - (step / 100);
-            targetVolume = targetVolume.toFixed(2);
-            device.log("volumeDown targetVolume: " + targetVolume);
-            device.setVolume(device, targetVolume);
-        }
-        */
 
     async readStream(readableStream, bytes) {
         const reader = promiseStream();
@@ -565,9 +544,8 @@ class C338Device extends Homey.Device {
             let client = devices[id].client;
             devices[id].receivedData = "";
             // check if client (net.Socket) already exists, if not then open one.
-            // console.dir(client)
             if ((typeof (client) === 'undefined') || (typeof (client.destroyed) != 'boolean') || (client.destroyed === true)) {
-                this.log("Opening new net.Socket to " + ip + ":" + IPPort);
+                //this.log("Opening new net.Socket to " + ip + ":" + IPPort);
                 client = new net.Socket();
                 client.connect(IPPort, ip);
 
@@ -596,7 +574,7 @@ class C338Device extends Homey.Device {
 
                 devices[id].client = client;
             }
-            this.log("Writing command to client: " + command + " ip: " + ip)
+            // this.log("Writing command to client: " + command + " ip: " + ip)
             command += "\r";
             var commandEncoded = utf8.encode(command);
             client.write(Buffer.from(commandEncoded));
@@ -607,13 +585,9 @@ class C338Device extends Homey.Device {
                 await this.readStream(client, 203).then((value) => {
                         //this.log("length of readStream output: " + value.length);
                         //this.log("'Raw' output: " + value);
-                        //var trimmedData = this.myTrim(value.toString());
-                        //this.log("trimmedData: " + trimmedData);
-                        //this.log(trimmedData);
-                        //devices[id].receivedData = utf8.decode(trimmedData);
                         devices[id].receivedData = utf8.decode(value.toString());
-                       // this.log("UTF8 decoded: ");
-                       // this.log(devices[id].receivedData);
+                        // this.log("UTF8 decoded: ");
+                        // this.log(devices[id].receivedData);
                         responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split(/\r\n|\n|\r/);
                         //this.log("responseline: " + responseLine);
                     })
@@ -645,13 +619,8 @@ class C338Device extends Homey.Device {
                 responseLine.forEach((value) => {
                     var array = value.split(":");
                     parameter[array[0]] = [array[1]];
-                    this.log("parameter: " + [array[0]] + " " + parameter[array[0]]);
+                    // this.log("parameter: " + [array[0]] + " " + parameter[array[0]]);
                 });
-
-                this.log("Main.Power: " + parameter["Main.Power"]);
-                this.log("Main.Source: " + parameter["Main.Source"]);
-                this.log("Main.Volume: " + parameter["Main.Volume"]);
-                this.log("Main.Mute: " + parameter["Main.Mute"]);
 
                 var onoffstring = parameter["Main.Power"];
 
@@ -661,7 +630,7 @@ class C338Device extends Homey.Device {
                     var onoffState = false;
                     // in standby mode the amplifier can be switched on using the app, so it is still available
                 } else {
-                    this.log("NAD C338 app - unintelligible response ");
+                    this.log("Unintelligible response ");
                     var onoffState = false;
                     return 0;
                 }
@@ -669,19 +638,19 @@ class C338Device extends Homey.Device {
                 var input_selectedName = parameter["Main.Source"];
                 var inputNumber = this.searchForInputsByValue(input_selectedName);
                 var input_selected = inputNumber[0]["inputName"];
-                this.log("Source: " + input_selected)
-                this.log("SourceName: " + input_selectedName);
+                //this.log("Source: " + input_selected)
+                //this.log("SourceName: " + input_selectedName);
 
                 // HomeyVolPercent = (volNad + 80) / 92;
                 // NadVol = 92 x (HomeyVol - 80)
                 var volNad = parseFloat(parameter["Main.Volume"]).toFixed(1);
                 //var volume_percent = parseFloat((volNad + 80) / 92).toFixed(2);
                 var volume_percent = parseFloat((parseFloat(volNad) + 80) / 92).toFixed(2);
-                this.log("VolNad: " + volNad);
+                this.log("Polled NAD volume: " + volNad);
                 this.log("Volume percent: " + volume_percent);
 
                 var muteString = parameter["Main.Mute"];
-                this.log("muteString: " + muteString);
+                //this.log("muteString: " + muteString);
                 if (muteString == "On") {
                     var muteState = true;
                 } else {
@@ -698,6 +667,7 @@ class C338Device extends Homey.Device {
                         .catch(this.error);
                 }
                 if (this.getCapabilityValue('volume_set') != volume_percent) {
+                    this.log("Volume changed: setting to " + parseFloat(volume_percent));
                     this.setCapabilityValue('volume_set', parseFloat(volume_percent))
                         .catch(this.error);
                 }
