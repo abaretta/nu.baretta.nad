@@ -640,6 +640,8 @@ class C338Device extends Homey.Device {
                 var input_selected = inputNumber[0]["inputName"];
                 //this.log("Source: " + input_selected)
                 //this.log("SourceName: " + input_selectedName);
+                this.log("Main.Volume datatype: " + typeof(parameter["Main.Volume"]));
+                this.log("Main.Volume: " + parameter["Main.Volume"]);
 
                 // HomeyVolPercent = (volNad + 80) / 92;
                 // NadVol = 92 x (HomeyVol - 80)
@@ -666,11 +668,12 @@ class C338Device extends Homey.Device {
                     this.setCapabilityValue('input_selected_c338', input_selected)
                         .catch(this.error);
                 }
+                /*
                 if (this.getCapabilityValue('volume_set') != volume_percent) {
                     this.log("Volume changed: setting to " + parseFloat(volume_percent));
                     this.setCapabilityValue('volume_set', parseFloat(volume_percent))
                         .catch(this.error);
-                }
+                } */
                 if (this.getCapabilityValue('volume_mute') != muteState) {
                     this.setCapabilityValue('volume_mute', muteState)
                         .catch(this.error);
