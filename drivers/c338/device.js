@@ -640,7 +640,7 @@ class C338Device extends Homey.Device {
                 var input_selected = inputNumber[0]["inputName"];
                 //this.log("Source: " + input_selected)
                 //this.log("SourceName: " + input_selectedName);
-                this.log("Main.Volume datatype: " + typeof(parameter["Main.Volume"]));
+                //this.log("Main.Volume datatype: " + typeof(parameter["Main.Volume"]));
                 this.log("Main.Volume: " + parameter["Main.Volume"]);
 
                 // HomeyVolPercent = (volNad + 80) / 92;
