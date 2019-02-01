@@ -524,8 +524,8 @@ class C338Device extends Homey.Device {
         var command = 'Main.Volume=' + volumeNad;
         this.log("setVolume: " + targetVolume + " command: " + command);
         device.sendCommand(command, 0);
-        device.setCapabilityValue('volume_set', parseFloat(targetVolume))
-            .catch(this.error);
+        /*device.setCapabilityValue('volume_set', parseFloat(targetVolume))
+            .catch(this.error); */
     }
 
     async readStream(readableStream, bytes) {
@@ -586,8 +586,8 @@ class C338Device extends Homey.Device {
                         //this.log("length of readStream output: " + value.length);
                         //this.log("'Raw' output: " + value);
                         devices[id].receivedData = utf8.decode(value.toString());
-                        // this.log("UTF8 decoded: ");
-                        // this.log(devices[id].receivedData);
+                        this.log("UTF8 decoded: ");
+                        this.log(devices[id].receivedData);
                         responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split(/\r\n|\n|\r/);
                         //this.log("responseline: " + responseLine);
                     })
