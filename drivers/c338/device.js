@@ -582,7 +582,7 @@ class C338Device extends Homey.Device {
             // add handler for any response or other data coming from the device
             if (poll == 1) {
                 // min bytes Main? output: 203, max. 217
-                await this.readStream(client, 203).then((value) => {
+                await this.readStream(client, 218).then((value) => {
                         //this.log("length of readStream output: " + value.length);
                         //this.log("'Raw' output: " + value);
                         devices[id].receivedData = utf8.decode(value.toString());
@@ -698,7 +698,7 @@ class C338Device extends Homey.Device {
         clearInterval(this.pollingInterval);
         let id = this.getData().id;
         // poll power, input, volume and mute state - refer to NAD-hex-switches.txt
-        var command = 'Main?';
+        var command = 'Main?\rMain?';
 
         this.pollingInterval = setInterval(() => {
             // poll status
