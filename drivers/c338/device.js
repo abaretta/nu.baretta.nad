@@ -582,8 +582,8 @@ class C338Device extends Homey.Device {
             // add handler for any response or other data coming from the device
             if (poll == 1) {
                 // min bytes Main? output: 203, max. 217
-                await this.readStream(client, 218).then((value) => {
-                        //this.log("length of readStream output: " + value.length);
+                await this.readStream(client, 228).then((value) => {
+                        this.log("length of readStream output: " + value.length);
                         //this.log("'Raw' output: " + value);
                         devices[id].receivedData = utf8.decode(value.toString());
                         this.log("UTF8 decoded: ");
@@ -611,7 +611,7 @@ class C338Device extends Homey.Device {
 
     readData(receivedData) {
         try {
-            if ((typeof (receivedData) == 'string') && (receivedData.length >= 203)) {
+            if ((typeof (receivedData) == 'string') && (receivedData.length >= 213)) {
                 // this.log("ReceivedData: " + receivedData);
                 reachable = 0;
                 this.setAvailable();
