@@ -583,11 +583,11 @@ class C338Device extends Homey.Device {
             if (poll == 1) {
                 // min bytes Main? output: 203, max. 217
                 await this.readStream(client, 228).then((value) => {
-                        this.log("length of readStream output: " + value.length);
+                        //this.log("length of readStream output: " + value.length);
                         //this.log("'Raw' output: " + value);
                         devices[id].receivedData = utf8.decode(value.toString());
-                        this.log("UTF8 decoded: ");
-                        this.log(devices[id].receivedData);
+                        //this.log("UTF8 decoded: ");
+                        //this.log(devices[id].receivedData);
                         responseLine = devices[id].receivedData.toString().replace(/=/g, ':').split(/\r\n|\n|\r/);
                         //this.log("responseline: " + responseLine);
                     })
@@ -641,7 +641,7 @@ class C338Device extends Homey.Device {
                 //this.log("Source: " + input_selected)
                 //this.log("SourceName: " + input_selectedName);
                 //this.log("Main.Volume datatype: " + typeof(parameter["Main.Volume"]));
-                this.log("Main.Volume: " + parameter["Main.Volume"]);
+                //this.log("Main.Volume: " + parameter["Main.Volume"]);
 
                 // HomeyVolPercent = (volNad + 80) / 92;
                 // NadVol = 92 x (HomeyVol - 80)
@@ -668,12 +668,11 @@ class C338Device extends Homey.Device {
                     this.setCapabilityValue('input_selected_c338', input_selected)
                         .catch(this.error);
                 }
-                /*
                 if (this.getCapabilityValue('volume_set') != volume_percent) {
                     this.log("Volume changed: setting to " + parseFloat(volume_percent));
                     this.setCapabilityValue('volume_set', parseFloat(volume_percent))
                         .catch(this.error);
-                } */
+                } 
                 if (this.getCapabilityValue('volume_mute') != muteState) {
                     this.setCapabilityValue('volume_mute', muteState)
                         .catch(this.error);

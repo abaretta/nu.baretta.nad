@@ -22,9 +22,9 @@ class D7050Driver extends Homey.Driver {
     }]
 
     // this is called when the user presses save settings button in start.html
-    socket.on('get_devices', function (data, callback) {
+    socket.on('get_devices', (data, callback) => {
 
-      console.log("NAD D7050 app - get_devices data: " + JSON.stringify(data));
+      this.log("get_devices data: " + JSON.stringify(data));
 
       // TODO: should check if IP leads to an actual NAD 7050 device
       // assume IP is OK and continue, which will cause the front-end to run list_amplifiers which is the template list_devices
@@ -53,17 +53,16 @@ class D7050Driver extends Homey.Driver {
     // this method is run when Homey.emit('list_devices') is run on the front-end
     // which happens when you use the template `list_devices`
     // pairing: start.html -> get_devices -> list_devices -> add_devices
-    socket.on('list_devices', function (data, callback) {
-      console.log("NAD D7050 app - get_devices data: " + JSON.stringify(data));
-      console.log("NAD D7050 app - list_devices data: " + JSON.stringify(data));
-      console.log("NAD D7050 app - list_devices devices: " + JSON.stringify(devices));
+    socket.on('list_devices', (data, callback) => {
+      this.log("list_devices data: " + JSON.stringify(data));
+      this.log("list_devices devices: " + JSON.stringify(devices));
 
       callback(null, devices);
     });
 
     // this happens when user clicks away the pairing windows
-    socket.on('disconnect', function () {
-      console.log("NAD D7050 app - Pairing is finished (done or aborted)"); // using console.log because this.log or Homey.log is not a function
+    socket.on('disconnect', () => {
+      this.log("Pairing is finished (done or aborted)"); // using console.log because this.log or Homey.log is not a function
     })
 
     function letsContinue(socket) {
