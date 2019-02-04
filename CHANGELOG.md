@@ -1,5 +1,8 @@
 # Changelog
 
+**Version 0.0.16**
+- Fixed the polling of the volume.
+
 **Version 0.0.15**
 - Changed split character to /r.
 

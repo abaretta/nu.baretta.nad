@@ -5,10 +5,10 @@
 		"en": "NAD Electronics"
 	},
 	"tags": {
-		"en": ["audio", "amplifier", "hifi"],
-		"nl": ["audio", "versterker", "hifi"]
+		"en": ["audio", "amplifier", "hifi", "NAD"],
+		"nl": ["audio", "versterker", "hifi", "NAD"]
 	},
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",

@@ -696,7 +696,11 @@ class C338Device extends Homey.Device {
     pollDevice(interval) {
         clearInterval(this.pollingInterval);
         let id = this.getData().id;
-        // poll power, input, volume and mute state - refer to NAD-hex-switches.txt
+        // poll power, input, volume and mute state. 'Main?' is entered twice to ensure all parameters 
+        // are included in the readStream buffer, which is a pre-determined number of bytes. This is needed
+        // as Main.Volume is the last parameter in the list, and is the first to go missing when the number of 
+        // bytes in the buffer is more that the pre-determined number. The pre-determined number must be less
+        // than or equal to the received number of bytes, or the readStream function will throw an error.
         var command = 'Main?\rMain?';
 
         this.pollingInterval = setInterval(() => {
