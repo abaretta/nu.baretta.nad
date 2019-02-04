@@ -68,7 +68,7 @@ class D7050Device extends Homey.Device {
         this.registerCapabilityListener('volume_up', this.onCapabilityVolumeUp.bind(this));
         this.registerCapabilityListener('volume_down', this.onCapabilityVolumeDown.bind(this));
         // Would be nice to be able to have the mute function in the mobile interface as well
-        //this.registerCapabilityListener('volume_mute', this.onCapabilityVolumeMute.bind(this));
+        this.registerCapabilityListener('volume_mute', this.onCapabilityVolumeMute.bind(this));
 
         // flow conditions
         this._conditionOnoff = new Homey.FlowCardCondition('onoff').register()
@@ -240,7 +240,7 @@ class D7050Device extends Homey.Device {
         if (value) {
             this.mute(this);
         } else {
-            this.muteOff(this);
+            this.unMute(this);
         }
         callback(null);
     }
