@@ -1,5 +1,8 @@
 # Changelog
 
+**version 0.1.0**
+- Enabled mute function for mobile interface. Verified app on Homey V2.
+
 **Version 0.0.16**
 - Fixed the polling of the volume.
 
