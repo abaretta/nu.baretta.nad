@@ -1,5 +1,8 @@
 # Changelog
 
+**version 0.1.1**
+- Replaced autocomplete in flow conditions/actions with dropdown.
+
 **version 0.1.0**
 - Enabled mute function for mobile interface. Verified app on Homey V2.
 

@@ -104,7 +104,7 @@ class C338Device extends Homey.Device {
 
         this._conditionInput_selected = new Homey.FlowCardCondition('input_selected_c338').register()
             .registerRunListener((args) => {
-                var selected_input = args.input.inputName;
+                var selected_input = args.input;
                 if (selected_input === this.getCapabilityValue('input_selected_c338')) {
                     this.log("Selected source equals current source: " + selected_input);
                     return Promise.resolve(true);
@@ -113,20 +113,6 @@ class C338Device extends Homey.Device {
                     return Promise.resolve(false);
                 }
             })
-
-        this._conditionInput_selected
-            .getArgument('input')
-            .registerAutocompleteListener((query) => {
-                var items = this.searchForInputsByValue(query);
-                return Promise.resolve(items);
-            });
-
-        this._conditionInput_selected
-            .getArgument('input')
-            .registerAutocompleteListener((query) => {
-                var items = this.searchForInputsByValue(query);
-                return Promise.resolve(items);
-            });
 
         // register flow card actions
         let powerOnAction = new Homey.FlowCardAction('powerOn');
@@ -261,17 +247,10 @@ class C338Device extends Homey.Device {
         changeInputAction
             .register()
             .registerRunListener((args) => {
-                this.log("Flow card action changeInput args " + args.input.inputName);
-                this.log(" changeInput input " + args.input.inputName);
-                this.onActioninput_selected(args.device, args.input.inputName);
+                this.log("Flow card action changeInput args " + args.input);
+                this.log(" changeInput input " + args.input);
+                this.onActioninput_selected(args.device, args.input);
                 return Promise.resolve(true);
-            });
-
-        changeInputAction
-            .getArgument('input')
-            .registerAutocompleteListener((query) => {
-                var items = this.searchForInputsByValue(query);
-                return Promise.resolve(items);
             });
 
         this.pollDevice(interval);

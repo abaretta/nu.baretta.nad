@@ -8,8 +8,6 @@ In this SDK2 version an option is added to let the Homey app 'stay connected' to
 
 # Features 
 
-![](https://drive.google.com/uc?id=0B4QdLfQ7j41JUHRfTmRHT3JGT0k)
-
 Supported flow actions:
 
 * switch on / standby
@@ -35,6 +33,7 @@ Mobile capabilities:
 
 * on/off
 * volume
+* mute/unmute
 * input selection
 
 Standby modes

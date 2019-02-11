@@ -8,7 +8,7 @@
 		"en": ["audio", "amplifier", "hifi", "NAD"],
 		"nl": ["audio", "versterker", "hifi", "NAD"]
 	},
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Anne Baretta",
@@ -355,11 +355,60 @@
 				},
 				"args": [{
 					"name": "input",
-					"type": "autocomplete",
+					"type": "dropdown",
 					"placeholder": {
 						"en": "Select source",
 						"nl": "Selecteer audio bron"
-					}
+					},
+					"values": [{
+							"id": "0",
+							"label": {
+								"en": "Coaxial 1"
+							}
+						},
+						{
+							"id": "1",
+							"label": {
+								"en": "Coaxial 2"
+							}
+						},
+						{
+							"id": "2",
+							"label": {
+								"en": "Optical 1"
+							}
+						},
+						{
+							"id": "3",
+							"label": {
+								"en": "Optical 2"
+							}
+						},
+						{
+							"id": "4",
+							"label": {
+								"en": "Computer"
+							}
+						},
+						{
+							"id": "5",
+							"label": {
+								"en": "Stream"
+							}
+						},
+						{
+							"id": "6",
+							"label": {
+								"en": "Dock"
+							}
+						},
+						{
+							"id": "7",
+							"label": {
+								"en": "Bluetooth"
+							}
+						}
+					]
 				}, {
 					"name": "device",
 					"type": "device",
@@ -374,11 +423,60 @@
 				},
 				"args": [{
 					"name": "input",
-					"type": "autocomplete",
+					"type": "dropdown",
 					"placeholder": {
 						"en": "Select source",
 						"nl": "Selecteer audio bron"
-					}
+					},
+					"values": [{
+							"id": "0",
+							"label": {
+								"en": "Coax1"
+							}
+						},
+						{
+							"id": "1",
+							"label": {
+								"en": "Coax2"
+							}
+						},
+						{
+							"id": "2",
+							"label": {
+								"en": "Opt1"
+							}
+						},
+						{
+							"id": "3",
+							"label": {
+								"en": "Opt2"
+							}
+						},
+						{
+							"id": "4",
+							"label": {
+								"en": "Stream"
+							}
+						},
+						{
+							"id": "5",
+							"label": {
+								"en": "Wireless"
+							}
+						},
+						{
+							"id": "6",
+							"label": {
+								"en": "TV"
+							}
+						},
+						{
+							"id": "7",
+							"label": {
+								"en": "Phono"
+							}
+						}
+					]
 				}, {
 					"name": "device",
 					"type": "device",
@@ -416,11 +514,60 @@
 				},
 				"args": [{
 					"name": "input",
-					"type": "autocomplete",
+					"type": "dropdown",
 					"placeholder": {
 						"en": "input",
 						"nl": "input"
-					}
+					},
+					"values": [{
+							"id": "0",
+							"label": {
+								"en": "Coaxial 1"
+							}
+						},
+						{
+							"id": "1",
+							"label": {
+								"en": "Coaxial 2"
+							}
+						},
+						{
+							"id": "2",
+							"label": {
+								"en": "Optical 1"
+							}
+						},
+						{
+							"id": "3",
+							"label": {
+								"en": "Optical 2"
+							}
+						},
+						{
+							"id": "4",
+							"label": {
+								"en": "Computer"
+							}
+						},
+						{
+							"id": "5",
+							"label": {
+								"en": "Stream"
+							}
+						},
+						{
+							"id": "6",
+							"label": {
+								"en": "Dock"
+							}
+						},
+						{
+							"id": "7",
+							"label": {
+								"en": "Bluetooth"
+							}
+						}
+					]
 				}, {
 					"name": "device",
 					"type": "device",
@@ -435,11 +582,60 @@
 				},
 				"args": [{
 					"name": "input",
-					"type": "autocomplete",
+					"type": "dropdown",
 					"placeholder": {
 						"en": "input",
 						"nl": "input"
-					}
+					},
+					"values": [{
+							"id": "0",
+							"label": {
+								"en": "Coax1"
+							}
+						},
+						{
+							"id": "1",
+							"label": {
+								"en": "Coax2"
+							}
+						},
+						{
+							"id": "2",
+							"label": {
+								"en": "Opt1"
+							}
+						},
+						{
+							"id": "3",
+							"label": {
+								"en": "Opt2"
+							}
+						},
+						{
+							"id": "4",
+							"label": {
+								"en": "Stream"
+							}
+						},
+						{
+							"id": "5",
+							"label": {
+								"en": "Wireless"
+							}
+						},
+						{
+							"id": "6",
+							"label": {
+								"en": "TV"
+							}
+						},
+						{
+							"id": "7",
+							"label": {
+								"en": "Phono"
+							}
+						}
+					]
 				}, {
 					"name": "device",
 					"type": "device",
